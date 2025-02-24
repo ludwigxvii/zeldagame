@@ -107,10 +107,7 @@ let levels = {
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
             enemy_group = new Enemy_Group(2);
-            // Aggiunta di nemici stazionari nella stanza 2
-            enemy_group.add(new StationaryEnemy(250, 180));
-            enemy_group.add(new StationaryEnemy(450, 280));
-            enemy_group.add(new StationaryEnemy(650, 380));
+            // aggiungere nemici stazionari
             console.log('Nemici caricati:', enemy_group);
 
             // Assegna i blocchi di collisione anche ai nemici
@@ -129,9 +126,7 @@ let levels = {
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
             enemy_group = new Enemy_Group(2);
-            enemy_group.add(new ShootingEnemy(250, 180));
-            enemy_group.add(new ShootingEnemy(450, 280));
-            enemy_group.add(new ShootingEnemy(650, 380));
+            // aggiungere nemici che sparano
             console.log('Nemici caricati:', enemy_group);
 
             // Assegna i blocchi di collisione anche ai nemici
@@ -150,9 +145,7 @@ let levels = {
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
             enemy_group = new Enemy_Group(2);
-            enemy_group.add(new ChasingEnemy(250, 180));
-            enemy_group.add(new ChasingEnemy(450, 280));
-            enemy_group.add(new ChasingEnemy(650, 380));
+            // aggiungere nemici che inseguono
             console.log('Nemici caricati:', enemy_group);
 
             // Assegna i blocchi di collisione anche ai nemici
