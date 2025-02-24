@@ -7,7 +7,7 @@ voto.innerHTML="voto controllato"
 canvas.width = 256 * 4
 canvas.height = 256 * 3
 const c = canvas.getContext('2d')
-//La variabile che viene yurgebr modificata nel momento in cui un tasto premuto viene rilevato dall EventListener
+//La variabile che viene modificata nel momento in cui un tasto premuto viene rilevato dall EventListener
 const pulsanti = {
     su: {pressed: false},
     giu: {pressed: false},
