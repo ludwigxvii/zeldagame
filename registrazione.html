@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Registrati</title>
+</head>
+<body>
+    
+<div class="flex-container">
+        <img src="immagini/logozelda.png">
+        <div class="zona_destra_big">
+            <h1>REGISTRATI!</h1>
+            <div class="zona_destra">
+            <div class="names_zone">
+                <div><label>Username: </label></div>
+                <div><label>Email: </label></div>
+                <div><label>Password</label></div>
+                <div><label>Conferma:</label></div>
+            </div>
+                    <form class="zonalogin" id="registrazione" action="#" method="post" onsubmit="return verifica(this)">
+                    <div><input type="text" name="username" id="user"></div>
+                    <div><input type="text" name="email" id="mail"></div>
+                    <div><input type="password" name="pass1" id="pass1"></div>
+                    <div><input type="password" name="pass2" id="pass2"></div>
+                    <div><input type="submit" value="Registrati"></div>
+                    </form>
+                </div>
+        </div>
+    
+    
+    <script>
+        function verifica(oggetto_reg){
+if (oggetto_reg.username.value==""){
+    alert("Devi inserire un nome!");
+    oggetto_reg.username.focus();
+    return false;
+}
+if (oggetto_reg.email.value==""){
+    alert("Devi inserire una Mail!");
+    oggetto_reg.email.focus();
+    return false;
+}
+if (oggetto_reg.pass1.value==""){
+    alert("Inserisci Password!");
+    oggetto_reg.pass1.focus();
+    return false;
+}
+if (oggetto_reg.pass2.value==""){
+    alert("Inserisci Password!");
+    oggetto_reg.pass2.focus();
+    return false;
+}
+if (oggetto_reg.pass1.value!=oggetto_reg.pass2.value){
+    alert("Le password non coincidono!");
+    oggetto_reg.pass1.focus();
+    return false;
+}
+return true;
+        }
+        
+    </script>
+</body>
+</html>

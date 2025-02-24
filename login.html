@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <link rel="stylesheet" type="text/css" href="stilelogin.css">
+    <style>
+        #zona_login input[type="submit"]{
+            
+            background-size: 100%;
+            font-size: 40px;
+            padding: 30px;
+            margin: 30px;
+        }
+        #zona_login .zonalogin{
+    padding-bottom: 125px;
+}
+    </style>
+</head>
+<body>
+    
+    <div id="zona_login" class="zonalogin">
+    <h1>Effettua il login</h1>
+    <form action="login-manager.php" method="post">
+       <div> <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="  max 25 caratteri">
+</div>
+<div>
+<label for="password">Password</label>
+<input type="password" name="password" id="password" placeholder=" ">
+</div>
+<input type="submit" name="Login" value="Login">
+
+    </form>
+    <p style="font-size: 70%;">Non sei registrato? <a href="registrer.php">Registrati</a></p>
+    
+</div>
+</body>
+</html>
