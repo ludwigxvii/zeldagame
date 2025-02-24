@@ -292,6 +292,10 @@ color: rgb(255, 226, 179);}
     box-shadow: 4px 4px rgb(0, 0, 0);
     }
     #logout:hover{
+        position: absolute;
+        right: 80px;
+        left: auto;
+        top: 198px;
         box-shadow: 8px 8px rgb(0, 0, 0);
         position: absolute;
         
