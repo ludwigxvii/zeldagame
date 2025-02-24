@@ -85,7 +85,7 @@ let levels = {
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            enemy_group = new Enemy_group(1);
+            enemy_group = new Enemy_Group(1);
             console.log('Nemici caricati:', enemy_group);
 
             // Assegna i blocchi di collisione anche ai nemici
@@ -106,7 +106,7 @@ let levels = {
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            enemy_group = new Enemy_group(2);
+            enemy_group = new Enemy_Group(2);
             // Aggiunta di nemici stazionari nella stanza 2
             enemy_group.add(new StationaryEnemy(250, 180));
             enemy_group.add(new StationaryEnemy(450, 280));
@@ -128,7 +128,7 @@ let levels = {
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            enemy_group = new Enemy_group(2);
+            enemy_group = new Enemy_Group(2);
             enemy_group.add(new ShootingEnemy(250, 180));
             enemy_group.add(new ShootingEnemy(450, 280));
             enemy_group.add(new ShootingEnemy(650, 380));
@@ -149,7 +149,7 @@ let levels = {
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            enemy_group = new Enemy_group(2);
+            enemy_group = new Enemy_Group(2);
             enemy_group.add(new ChasingEnemy(250, 180));
             enemy_group.add(new ChasingEnemy(450, 280));
             enemy_group.add(new ChasingEnemy(650, 380));
@@ -170,8 +170,8 @@ let levels = {
 //blockclass è l'oggetto di classe blocchicollisione con cui ho definito l'array contenente i blocchi di collisione 
 //è necessario che sia array perchè così scorrendolo con foreach si controllano tutte le collisioni, tecnicamente 
 //è una classe contenente array per questo blockclass.blocchicollisione
-let blockclass = new BlocchiCollisione()
-let enemy_group = new Enemy_group()
+var blockclass = new BlocchiCollisione()
+var enemy_group = new Enemy_Group()
 
 //Dichiarazione del player, una classe che ha bisogno di accedere all'array dei blocchi di collisione, larray dei nemici con cui interagisce
 //e le animazioni di cui è composto
