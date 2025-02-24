@@ -58,7 +58,7 @@ else {
 <div id="logout">Logout</div>
     </nav>
     <main>
-        <h1>Scegli l'Aspetto</h1>
+        <h1>Scegli l'Aspettu</h1>
         <div class="immagine">
             <img src="immagini/link_blue.png">
         </div>
