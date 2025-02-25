@@ -87,7 +87,13 @@ let levels = {
 
             enemy_group = new Enemy_Group(1);
             console.log('Nemici caricati:', enemy_group);
-
+            var source= './immagini/nemici/warrior_walkup.png'
+            //Questo è solo per il test
+            enemy_group.add( new ShootingEnemy({
+                numero_frame: 4,
+                source:source,
+                blocchiCollisione:blockclass.blocchiCollisione,
+            }))
             // Assegna i blocchi di collisione anche ai nemici
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;

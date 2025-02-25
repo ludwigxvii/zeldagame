@@ -183,43 +183,81 @@ this.divisore_frame = this.animazioni[name].divisore_frame
     }
 
     class StationaryEnemy extends Enemy {
-        constructor(x, y) {
-          super(x, y);
-          this.loadImages();
+      constructor({
+        blocchiCollisione = [], source, numero_frame, animazioni
+    }) {
+      var animazioni={
+        walk_up:{
+            framerate:4,
+            divisore_frame:6,
+            loop:true,
+            source: './immagini/nemici/warrior_walkup.png'
+            },
+            walk_down:{
+                framerate:4,
+                divisore_frame:6,
+                loop:true,
+                source: './immagini/nemici/warrior_walkdown.png'
+                },
+                walk_right:{
+                    framerate:4,
+                    divisore_frame:6,
+                    loop:true,
+                    source: './immagini/nemici/warrior_walkright.png'
+                    },
+                    walk_left:{
+                        framerate:4,
+                        divisore_frame:6,
+                        loop:true,
+                        source: './immagini/nemici/warrior_walkleft.png'
+                        },}
+        super({blocchiCollisione, source, numero_frame, animazioni})
+          this.position.x=200
+          this.position.y=300
+          console.log(this.animazioni)
+          super.cambia_sprite('walk_up')
         }
       
-        loadImages() {
-          this.images = {
-            up: new Image(),
-            down: new Image(),
-            left: new Image(),
-            right: new Image()
-          };
-          Object.keys(this.images).forEach(dir => {
-            this.images[dir].src = 'immagini/nemici/stationary_enemy_${dir}.png';
-          });
-          this.image = this.images[this.direction];
-        }
       }
       
       class ChasingEnemy extends Enemy {
-        constructor(x, y) {
-          super(x, y);
-          this.loadImages();
-        }
-      
-        loadImages() {
-          this.images = {
-            up: new Image(),
-            down: new Image(),
-            left: new Image(),
-            right: new Image()
-          };
-          Object.keys(this.images).forEach(dir => {
-            this.images[dir].src = 'immagini/nemici/chasing_enemy_${dir}.png';
-          });
-          this.image = this.images[this.direction];
-        }
+        
+        constructor({
+          blocchiCollisione = [], source, numero_frame, animazioni
+      }) {
+        var animazioni={
+          walk_up:{
+              framerate:4,
+              divisore_frame:6,
+              loop:true,
+              source: './immagini/nemici/lynel_up.png'
+              },
+              walk_down:{
+                  framerate:4,
+                  divisore_frame:6,
+                  loop:true,
+                  source: './immagini/nemici/lynel_down.png'
+                  },
+                  walk_right:{
+                      framerate:4,
+                      divisore_frame:6,
+                      loop:true,
+                      source: './immagini/nemici/lynel_right.png'
+                      },
+                      walk_left:{
+                          framerate:4,
+                          divisore_frame:6,
+                          loop:true,
+                          source: './immagini/nemici/lynel_left.png'
+                          },}
+          super({blocchiCollisione, source, numero_frame, animazioni})
+            this.position.x=200
+            this.position.y=300
+            console.log(this.animazioni)
+            super.cambia_sprite('walk_up')
+          }
+        
+        
       
         update(player) {
           if (player.x > this.x) { this.x += 1; this.direction = 'right'; }
@@ -227,27 +265,44 @@ this.divisore_frame = this.animazioni[name].divisore_frame
           if (player.y > this.y) { this.y += 1; this.direction = 'down'; }
           if (player.y < this.y) { this.y -= 1; this.direction = 'up'; }
           this.image = this.images[this.direction];
+          //guido qua usa il cambia sprite col nome che ti serve
         }
       }
       
       class ShootingEnemy extends Enemy {
-        constructor(x, y) {
-          super(x, y);
-          this.loadImages();
-          this.projectiles = [];
-          this.shootCooldown = 0;
-        }
-      
-        loadImages() {
-          this.images = {
-            up: new Image(),
-            down: new Image(),
-            left: new Image(),
-            right: new Image()
-          };
-          Object.keys(this.images).forEach(dir => {
-            this.images[dir].src = 'immagini/nemici/shooting_enemy_${dir}.png';
-          });
-          this.image = this.images[this.direction];
-        }
+        
+        constructor({
+          blocchiCollisione = [], source, numero_frame, animazioni
+      }) {
+        var animazioni={
+          walk_up:{
+              framerate:4,
+              divisore_frame:8,
+              loop:true,
+              source: './immagini/nemici/red_octorokup.png'
+              },
+              walk_down:{
+                  framerate:4,
+                  divisore_frame:8,
+                  loop:true,
+                  source: './immagini/nemici/red_octorokdown.png'
+                  },
+                  walk_right:{
+                      framerate:4,
+                      divisore_frame:8,
+                      loop:true,
+                      source: './immagini/nemici/red_octorokright.png'
+                      },
+                      walk_left:{
+                          framerate:4,
+                          divisore_frame:8,
+                          loop:true,
+                          source: './immagini/nemici/red_octorokleft.png'
+                          },}
+          super({blocchiCollisione, source, numero_frame, animazioni})
+            this.position.x=200
+            this.position.y=300
+            console.log(this.animazioni)
+            super.cambia_sprite('walk_left')
+          }
       }
