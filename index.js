@@ -17,7 +17,8 @@ const pulsanti = {
 //dichiarazione audio
 const music = document.getElementById("background-music");
 const musicButton = document.getElementById("toggle-music");
-
+var audio_attack = new Audio('suoni/attack.wav');
+        audio_attack.volume=0.02
 // Lista delle canzoni
 const playlist = [
     "suoni/music1.mp3",
@@ -99,11 +100,11 @@ let levels = {
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
 
             // Carica l'immagine di sfondo della stanza
-            background_stanza.image.src = './immagini/stanze/stanza1.png';
+            background_stanza.image.src = './immagini/stanze/mapcenter.png';
 
             // Ripristina la posizione del giocatore all'entrata della stanza
-            player.position.x = 478;  // Cambia se necessario
-            player.position.y = 300;
+            player.position.x = 512;  // Cambia se necessario
+            player.position.y = 500;
         }
     },
     2: {
@@ -121,17 +122,17 @@ let levels = {
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
 
             // Carica l'immagine di sfondo della stanza
-            background_stanza.image.src = './immagini/stanze/stanza2.png';
+            background_stanza.image.src = './immagini/stanze/mapright.png';
 
         }
     },
     0: {
         init: () => {
-            blockclass = new BlocchiCollisione(2);
+            blockclass = new BlocchiCollisione(0);
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            enemy_group = new Enemy_Group(2);
+            enemy_group = new Enemy_Group(0);
             // aggiungere nemici che sparano
             console.log('Nemici caricati:', enemy_group);
 
@@ -140,17 +141,17 @@ let levels = {
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
 
             // Carica l'immagine di sfondo della stanza
-            background_stanza.image.src = './immagini/stanze/stanza0.png';
+            background_stanza.image.src = './immagini/stanze/mapleft.png';
 
         }
     },
     3: {
         init: () => {
-            blockclass = new BlocchiCollisione(2);
+            blockclass = new BlocchiCollisione(3);
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            enemy_group = new Enemy_Group(2);
+            enemy_group = new Enemy_Group(3);
             // aggiungere nemici che inseguono
             console.log('Nemici caricati:', enemy_group);
 
@@ -159,7 +160,7 @@ let levels = {
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
 
             // Carica l'immagine di sfondo della stanza
-            background_stanza.image.src = './immagini/stanze/stanza3.png';
+            background_stanza.image.src = './immagini/stanze/maptop2.png';
 
            
         }
@@ -426,18 +427,18 @@ source: './immagini/mappabase.png',
 })
 //dichiarazione porte
 const portasinistra = new Sprite({
-    position: { x: 0, y: 355 },
-    source: './immagini/porte/portaorizzontale.png',
+    position: { x: 0, y: 253 },
+    source: './immagini/stanze/porta_sinistra_aperta.png',
 });
 
 const portadestra = new Sprite({
-    position: { x: 984, y: 355 },
-    source: './immagini/porte/portaorizzontale.png',
+    position: { x: 919, y: 253 },
+    source: './immagini/stanze/porta_destra_aperta.png',
 });
 
 const portasopra = new Sprite({
-    position: { x: 435, y: 0 },
-    source: './immagini/porte/portaverticale.png',
+    position: { x: 395, y: 0 },
+    source: './immagini/stanze/porta_sopra_aperta.png',
 });
 
 const portasotto = new Sprite({
@@ -449,7 +450,8 @@ levels[level].init()
 function checkDoorCollision() {
     // Controlla collisione con la porta destra (passa alla stanza successiva)
     if (
-        player.position.x + player.width >= portadestra.position.x &&
+        player.position.x + player.width >= portadestra.position.x+200 &&
+        player.position.x<=portadestra.position.x+portadestra.width+200 &&
         player.position.y + player.height >= portadestra.position.y &&
         player.position.y <= portadestra.position.y + portadestra.height
     ) {
@@ -458,7 +460,8 @@ function checkDoorCollision() {
 
     // Controlla collisione con la porta sinistra (torna alla stanza precedente)
     if (
-        player.position.x <= portasinistra.position.x + portasinistra.width &&
+        player.position.x <= portasinistra.position.x-200 + portasinistra.width &&
+        player.position.x+player.width >= portasinistra.position.x-200 &&
         player.position.y + player.height >= portasinistra.position.y &&
         player.position.y <= portasinistra.position.y + portasinistra.height
     ) {
@@ -469,9 +472,18 @@ function checkDoorCollision() {
     if (
         player.position.x + player.width >= portasopra.position.x &&
         player.position.x <= portasopra.position.x + portasopra.width &&
-        player.position.y <= portasopra.position.y + portasopra.height
+        player.position.y <= portasopra.position.y + portasopra.height-200 &&
+        player.position.y+player.height >= portasopra.position.y-200
     ) {
         cambiaStanza(level + 2, 'sopra'); // Passa alla stanza sopra (3)
+    }
+    if (
+        player.position.x + player.width >= portasotto.position.x &&
+        player.position.x <= portasotto.position.x + portasotto.width &&
+        player.position.y <= portasotto.position.y + portasotto.height+200 &&
+        player.position.y+player.height >= portasotto.position.y+200
+    ) {
+        cambiaStanza(level - 2, 'sotto'); // Passa alla stanza sotto (1)
     }
 }
 
@@ -482,15 +494,16 @@ function cambiaStanza(nuovoLevel, direzione) {
 
         // Posiziona il player all'entrata della nuova stanza in base alla direzione
         if (direzione === 'destra') {
-            player.position.x = portasinistra.position.x + portasinistra.width + 10; // Entra da sinistra
+            player.position.x = portasinistra.position.x; // Entra da sinistra
         } else if (direzione === 'sinistra') {
-            player.position.x = portadestra.position.x - player.width - 10; // Entra da destra
+            player.position.x = portadestra.position.x+(portadestra.width/2);
+            player.position.y = portadestra.position.y+(portadestra.height/2) // Entra da destra
         } else if (direzione === 'sopra') {
             player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centra il player
             player.position.y = portasotto.position.y - player.height ; // Appena sotto la porta
         } else if (direzione === 'sotto') {
-            player.position.x = portasopra.position.x ; // Allinea al centro della porta
-            player.position.y = 50; // Entra dall'alto della stanza sotto
+            player.position.x = canvas.width/2 ; // Allinea al centro della porta
+            player.position.y = 80; // Entra dall'alto della stanza sotto
         }
     }
 }
@@ -575,10 +588,23 @@ function animate(){
     enemy_group.update()
     //disegno del frame di animazione relativo al player in se( dato che è diverso da uno sprite generico)
     player.update()
+    if (level == 1 || level == 2) {
+        portasinistra.draw();
+    }
+    if (level == 1 || level == 0){
+        portadestra.draw();
+    }
+    if (level == 1){
+        portasopra.draw();
+    }
+    if (level == 3){
+        portasotto.draw();
+    }
     //chiama la funzione
     checkDoorCollision();
     //se è attiva la visualizzazione delle hitbox dei blocchi questa funzione la disegna
     blockclass.draw()
+    
     //loop di tutta la funzione
     window.requestAnimationFrame(animate)
 }
@@ -622,6 +648,7 @@ case 'ArrowLeft' :
 case ' ':
     event.preventDefault()
     player.attack()
+    audio_attack.play()
     break
 }
 

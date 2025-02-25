@@ -16,6 +16,8 @@ class Player extends Sprite {
             x:0,
             y:0
         }
+        this.audio_bloc = new Audio('suoni/blocco.wav');
+        this.audio_bloc.volume=0.01
         //ultimo lato su cui si affaccia il player
         this.ultimo_lato='nullo'
         //variabile attiva solo durante l'attacco
@@ -159,6 +161,7 @@ if(this.timer >= 20){
                 ){
                     //collisione sulle varie direzioni
                 console.log('COLLISIONE')
+                this.audio_bloc.play();
                 if(this.velocity.x <-0) {
                     const offset = this.hitbox.position.x - this.position.x
                     this.position.x = collisionBlock.position2.x-offset+1
@@ -198,7 +201,7 @@ if(this.timer >= 20){
                 ){
                     //collisione sulle varie direzioni
                 console.log('COLLISIONE')
-                
+                this.audio_bloc.play();
                 if(this.velocity.y <0) {
                     const offset = this.hitbox.position.y - this.position.y
                     this.position.y = collisionBlock.position2.y- offset +1
