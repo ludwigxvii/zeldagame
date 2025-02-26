@@ -48,17 +48,14 @@ class Enemy extends Sprite {
     cambia_sprite(name){
         if (this.image === this.animazioni[name].image) return
         this.frame_corrente=0
-this.image = this.animazioni[name].image
-this.numero_frame = this.animazioni[name].framerate
-this.divisore_frame = this.animazioni[name].divisore_frame
+        this.image = this.animazioni[name].image
+        this.numero_frame = this.animazioni[name].framerate
+        this.divisore_frame = this.animazioni[name].divisore_frame
     }
     attack(){
         console.log('attacco')
         if(!this.isattacking)this.isattacking = true
         if(this.frame_corrente==7)this.isattacking = false
-        
-        
-        
     }
     
      update(){
@@ -183,126 +180,257 @@ this.divisore_frame = this.animazioni[name].divisore_frame
     }
 
     class StationaryEnemy extends Enemy {
-      constructor({
-        blocchiCollisione = [], source, numero_frame, animazioni
-    }) {
-      var animazioni={
-        walk_up:{
-            framerate:4,
-            divisore_frame:6,
-            loop:true,
-            source: './immagini/nemici/warrior_walkup.png'
-            },
-            walk_down:{
-                framerate:4,
-                divisore_frame:6,
-                loop:true,
-                source: './immagini/nemici/warrior_walkdown.png'
+        constructor({ blocchiCollisione = [], source, numero_frame, animazioni, position = { x: 200, y: 300 } }) {
+            var animazioni = {
+                walk_up: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
+                    source: './immagini/nemici/warrior_walkup.png'
                 },
-                walk_right:{
-                    framerate:4,
-                    divisore_frame:6,
-                    loop:true,
+                walk_down: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
+                    source: './immagini/nemici/warrior_walkdown.png'
+                },
+                walk_right: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
                     source: './immagini/nemici/warrior_walkright.png'
-                    },
-                    walk_left:{
-                        framerate:4,
-                        divisore_frame:6,
-                        loop:true,
-                        source: './immagini/nemici/warrior_walkleft.png'
-                        },}
-        super({blocchiCollisione, source, numero_frame, animazioni})
-          this.position.x=200
-          this.position.y=300
-          console.log(this.animazioni)
-          super.cambia_sprite('walk_up')
+                },
+                walk_left: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
+                    source: './immagini/nemici/warrior_walkleft.png'
+                },
+            };
+    
+            super({ blocchiCollisione, source, numero_frame, animazioni });
+    
+            // **Imposta la posizione dal parametro ricevuto**
+            this.position = { x: position.x, y: position.y };
+    
+            this.cambia_sprite('walk_down'); // Sprite iniziale
         }
-      
-      }
-      
-      class ChasingEnemy extends Enemy {
-        
-        constructor({
-          blocchiCollisione = [], source, numero_frame, animazioni
-      }) {
-        var animazioni={
-          walk_up:{
-              framerate:4,
-              divisore_frame:6,
-              loop:true,
-              source: './immagini/nemici/lynel_up.png'
-              },
-              walk_down:{
-                  framerate:4,
-                  divisore_frame:6,
-                  loop:true,
-                  source: './immagini/nemici/lynel_down.png'
-                  },
-                  walk_right:{
-                      framerate:4,
-                      divisore_frame:6,
-                      loop:true,
-                      source: './immagini/nemici/lynel_right.png'
-                      },
-                      walk_left:{
-                          framerate:4,
-                          divisore_frame:6,
-                          loop:true,
-                          source: './immagini/nemici/lynel_left.png'
-                          },}
-          super({blocchiCollisione, source, numero_frame, animazioni})
-            this.position.x=200
-            this.position.y=300
-            console.log(this.animazioni)
-            super.cambia_sprite('walk_up')
-          }
-        
-        
-      
+    
         update(player) {
-          if (player.x > this.x) { this.x += 1; this.direction = 'right'; }
-          if (player.x < this.x) { this.x -= 1; this.direction = 'left'; }
-          if (player.y > this.y) { this.y += 1; this.direction = 'down'; }
-          if (player.y < this.y) { this.y -= 1; this.direction = 'up'; }
-          this.image = this.images[this.direction];
-          //guido qua usa il cambia sprite col nome che ti serve
-        }
-      }
-      
-      class ShootingEnemy extends Enemy {
+            if (!player) return; // Evita errori se player non è definito
+    
+            let dx = player.position.x - this.position.x;
+            let dy = player.position.y - this.position.y;
+            
+            let angle = Math.atan2(dy, dx) * (180 / Math.PI); // Calcola angolo in gradi
+            
+            if (angle < 0) {
+                angle += 360; // Porta gli angoli negativi nel range 0-360
+            }
         
-        constructor({
-          blocchiCollisione = [], source, numero_frame, animazioni
-      }) {
-        var animazioni={
-          walk_up:{
-              framerate:4,
-              divisore_frame:8,
-              loop:true,
-              source: './immagini/nemici/red_octorokup.png'
-              },
-              walk_down:{
-                  framerate:4,
-                  divisore_frame:8,
-                  loop:true,
-                  source: './immagini/nemici/red_octorokdown.png'
-                  },
-                  walk_right:{
-                      framerate:4,
-                      divisore_frame:8,
-                      loop:true,
-                      source: './immagini/nemici/red_octorokright.png'
-                      },
-                      walk_left:{
-                          framerate:4,
-                          divisore_frame:8,
-                          loop:true,
-                          source: './immagini/nemici/red_octorokleft.png'
-                          },}
-          super({blocchiCollisione, source, numero_frame, animazioni})
-            this.position.x=200
-            this.position.y=300
-            console.log(this.animazioni)
-            super.cambia_sprite('walk_left')
-          }
-      }
+            // Cambia sprite in base all'angolo
+            if ((angle >= 0 && angle <= 45) || (angle > 315 && angle <= 360)) {
+                this.cambia_sprite('walk_right'); // 0-45° e 316-360° → Destra
+            } else if (angle > 45 && angle <= 135) {
+                this.cambia_sprite('walk_down'); // 46-135° → Sotto
+            } else if (angle > 135 && angle <= 225) {
+                this.cambia_sprite('walk_left'); // 136-225° → Sinistra
+            } else if (angle > 225 && angle <= 315) {
+                this.cambia_sprite('walk_up'); // 226-315° → Sopra
+            }
+        
+            // **CONTROLLA SE IL PLAYER È TROPPO VICINO E SUBISCE DANNO**
+            let distanza = Math.sqrt(dx * dx + dy * dy);
+            if (distanza < 40) { // Se il player è troppo vicino (spazio per attaccare lasciato)
+                player.subisciDanno();
+            }
+        
+            super.update(); // Mantiene il comportamento base
+        }
+    }
+    
+    
+      
+    class ChasingEnemy extends Enemy {
+        constructor({ blocchiCollisione = [], source, numero_frame, animazioni, position }) {
+            var animazioni = {
+                walk_up: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
+                    source: './immagini/nemici/lynel_up.png'
+                },
+                walk_down: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
+                    source: './immagini/nemici/lynel_down.png'
+                },
+                walk_right: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
+                    source: './immagini/nemici/lynel_right.png'
+                },
+                walk_left: {
+                    framerate: 4,
+                    divisore_frame: 6,
+                    loop: true,
+                    source: './immagini/nemici/lynel_left.png'
+                }
+            };
+    
+            super({ blocchiCollisione, source, numero_frame, animazioni });
+            this.position = { x: position.x, y: position.y };
+            this.speed = 1; // Il player si muove a 4, il nemico più lento
+            this.cambia_sprite('walk_down');
+        }
+    
+        update(player) {
+            if (!player) return;
+    
+            // Calcola la direzione verso il player
+            let dx = player.position.x - this.position.x;
+            let dy = player.position.y - this.position.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+    
+            if (distance > 5) { // Evita tremori quando è molto vicino
+                // Normalizza il movimento e applica la velocità
+                this.velocity.x = (dx / distance) * this.speed;
+                this.velocity.y = (dy / distance) * this.speed;
+    
+                // Controllo per cambiare sprite in base alla direzione
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    this.cambia_sprite(dx > 0 ? 'walk_right' : 'walk_left');
+                } else {
+                    this.cambia_sprite(dy > 0 ? 'walk_down' : 'walk_up');
+                }
+            } else {
+                this.velocity.x = 0;
+                this.velocity.y = 0;
+            }
+    
+            // Applica il movimento controllando le collisioni
+            this.position.x += this.velocity.x;
+            this.position.y += this.velocity.y;
+    
+            // Controllo collisioni con i blocchi della stanza
+            this.blocchiCollisione.forEach(block => {
+                if (
+                    this.position.x < block.position2.x &&
+                    this.position.x + this.width > block.position.x &&
+                    this.position.y < block.position2.y &&
+                    this.position.y + this.height > block.position.y
+                ) {
+                    // Se c'è una collisione, annulla il movimento
+                    this.position.x -= this.velocity.x;
+                    this.position.y -= this.velocity.y;
+                }
+            });
+    
+            // Controlla se il player è troppo vicino e infligge danno
+            if (distance < 40) {
+                player.subisciDanno();
+            }
+    
+            super.update();
+        }
+    }
+    
+    class ShootingEnemy extends Enemy {
+        constructor({ blocchiCollisione = [], source, numero_frame, animazioni, position }) {
+            var animazioni = {
+                walk_up: {
+                    framerate: 4,
+                    divisore_frame: 8,
+                    loop: true,
+                    source: './immagini/nemici/red_octorokup.png'
+                },
+                walk_down: {
+                    framerate: 4,
+                    divisore_frame: 8,
+                    loop: true,
+                    source: './immagini/nemici/red_octorokdown.png'
+                },
+                walk_right: {
+                    framerate: 4,
+                    divisore_frame: 8,
+                    loop: true,
+                    source: './immagini/nemici/red_octorokright.png'
+                },
+                walk_left: {
+                    framerate: 4,
+                    divisore_frame: 8,
+                    loop: true,
+                    source: './immagini/nemici/red_octorokleft.png'
+                }
+            };
+    
+            super({ blocchiCollisione, source, numero_frame, animazioni });
+    
+            this.position = { x: position.x, y: position.y };
+            this.projectiles = [];
+            this.shootInterval = 500;
+            this.lastShotTime = 0;
+    
+            this.cambia_sprite('walk_down');
+        }
+    
+        shoot(direction) {
+            this.projectiles.push(new Projectile({
+                position: { x: this.position.x + this.width / 2, y: this.position.y + this.height / 2 },
+                direction: direction
+            }));
+        }
+    
+        update(player) {
+            if (!player) return;
+    
+            let dx = player.position.x - this.position.x;
+            let dy = player.position.y - this.position.y;
+            let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+    
+            if (angle < 0) angle += 360;
+    
+            if ((angle >= 0 && angle <= 45) || (angle > 315 && angle <= 360)) {
+                this.cambia_sprite('walk_right');
+            } else if (angle > 45 && angle <= 135) {
+                this.cambia_sprite('walk_down');
+            } else if (angle > 135 && angle <= 225) {
+                this.cambia_sprite('walk_left');
+            } else if (angle > 225 && angle <= 315) {
+                this.cambia_sprite('walk_up');
+            }
+    
+            let now = Date.now();
+            if (now - this.lastShotTime >= this.shootInterval) {
+                this.lastShotTime = now;
+                if ((angle >= 0 && angle <= 45) || (angle > 315 && angle <= 360)) {
+                    this.shoot('right');
+                } else if (angle > 45 && angle <= 135) {
+                    this.shoot('down');
+                } else if (angle > 135 && angle <= 225) {
+                    this.shoot('left');
+                } else if (angle > 225 && angle <= 315) {
+                    this.shoot('up');
+                }
+            }
+    
+            this.projectiles.forEach((projectile, index) => {
+                projectile.update(player);
+                if (!projectile.active) {
+                    this.projectiles.splice(index, 1);
+                }
+            });
+    
+            super.update();
+        }
+    
+        draw() {
+            super.draw();
+            this.projectiles.forEach(projectile => projectile.draw());
+        }
+    }
+    
+    
+    

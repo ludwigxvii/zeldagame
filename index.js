@@ -87,23 +87,22 @@ let levels = {
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
             enemy_group = new Enemy_Group(1);
-            console.log('Nemici caricati:', enemy_group);
-            var source= './immagini/nemici/warrior_walkup.png'
-            //Questo è solo per il test
-            enemy_group.add( new ShootingEnemy({
-                numero_frame: 4,
-                source:source,
-                blocchiCollisione:blockclass.blocchiCollisione,
-            }))
-            // Assegna i blocchi di collisione anche ai nemici
+
+            let enemySprite = new Image();
+            enemySprite.src = './immagini/nemici/warrior_walkdown.png';
+            enemySprite.onload = function () {
+                console.log("Immagine caricata correttamente");
+                enemy_group.add(new StationaryEnemy({
+                    numero_frame: 4,
+                    source: enemySprite.src,
+                    blocchiCollisione: blockclass.blocchiCollisione
+                }));
+            };
+
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
-
-            // Carica l'immagine di sfondo della stanza
             background_stanza.image.src = './immagini/stanze/mapcenter.png';
-
-            // Ripristina la posizione del giocatore all'entrata della stanza
-            player.position.x = 512;  // Cambia se necessario
+            player.position.x = 512;
             player.position.y = 500;
         }
     },
@@ -114,16 +113,18 @@ let levels = {
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
             enemy_group = new Enemy_Group(2);
-            // aggiungere nemici stazionari
-            console.log('Nemici caricati:', enemy_group);
-
-            // Assegna i blocchi di collisione anche ai nemici
+            let enemySprite = new Image();
+            enemySprite.src = './immagini/nemici/warrior_walkdown.png';
+            enemySprite.onload = function () {
+                console.log("Immagine caricata correttamente");
+                enemy_group.add(new StationaryEnemy({ numero_frame: 4, source: enemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 330, y: 580 } }));
+                enemy_group.add(new StationaryEnemy({ numero_frame: 4, source: enemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 450, y: 580 } }));
+                enemy_group.add(new StationaryEnemy({ numero_frame: 4, source: enemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 570, y: 580 } }));
+            };
+            
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
-
-            // Carica l'immagine di sfondo della stanza
             background_stanza.image.src = './immagini/stanze/mapright.png';
-
         }
     },
     0: {
@@ -133,16 +134,16 @@ let levels = {
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
             enemy_group = new Enemy_Group(0);
-            // aggiungere nemici che sparano
-            console.log('Nemici caricati:', enemy_group);
-
-            // Assegna i blocchi di collisione anche ai nemici
+            let shootingEnemySprite = new Image();
+            shootingEnemySprite.src = './immagini/nemici/red_octorokdown.png';
+            shootingEnemySprite.onload = function () {
+                console.log("Immagine caricata correttamente");
+                enemy_group.add(new ShootingEnemy({ numero_frame: 4, source: shootingEnemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 800, y: 580 } }));
+            };
+            
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
-
-            // Carica l'immagine di sfondo della stanza
             background_stanza.image.src = './immagini/stanze/mapleft.png';
-
         }
     },
     3: {
@@ -152,20 +153,21 @@ let levels = {
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
             enemy_group = new Enemy_Group(3);
-            // aggiungere nemici che inseguono
-            console.log('Nemici caricati:', enemy_group);
-
-            // Assegna i blocchi di collisione anche ai nemici
+            let chasingEnemySprite = new Image();
+            chasingEnemySprite.src = './immagini/nemici/lynel_down.png';
+            chasingEnemySprite.onload = function () {
+                console.log("Immagine caricata correttamente");
+                enemy_group.add(new ChasingEnemy({ numero_frame: 4, source: chasingEnemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 800, y: 580 } }));
+                enemy_group.add(new ChasingEnemy({ numero_frame: 4, source: chasingEnemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 400, y: 580 } }));
+            };
+            
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
-
-            // Carica l'immagine di sfondo della stanza
             background_stanza.image.src = './immagini/stanze/maptop2.png';
-
-           
         }
     }
 };
+
 
 //blockclass è l'oggetto di classe blocchicollisione con cui ho definito l'array contenente i blocchi di collisione 
 //è necessario che sia array perchè così scorrendolo con foreach si controllano tutte le collisioni, tecnicamente 
@@ -445,7 +447,11 @@ const portasotto = new Sprite({
     position: { x: 435, y: 710},
     source: './immagini/porte/portaverticale.png',
 });
-
+//funzione per aggiornare il voto
+function aggiornaVoto() {
+    let votoTesto = player.voto === 31 ? "30L" : player.voto;
+    document.getElementById("voto").innerText = `Voto Controllato: ${votoTesto}`;
+}
 levels[level].init()
 function checkDoorCollision() {
     // Controlla collisione con la porta destra (passa alla stanza successiva)
@@ -587,7 +593,8 @@ function animate(){
     //disegno del player e del nemico
     player.draw()
     enemy_group.draw()
-    enemy_group.update()
+    enemy_group.update(player);
+
     //disegno del frame di animazione relativo al player in se( dato che è diverso da uno sprite generico)
     player.update()
     if (level == 1 || level == 2) {
@@ -602,6 +609,8 @@ function animate(){
     if (level == 3){
         portasotto.draw();
     }
+    //chiama la funzione per aggiornare il voto
+    aggiornaVoto();
     //chiama la funzione
     checkDoorCollision();
     //se è attiva la visualizzazione delle hitbox dei blocchi questa funzione la disegna

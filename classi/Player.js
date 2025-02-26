@@ -41,18 +41,24 @@ class Player extends Sprite {
             bottom: this.position.y+this.height,
             right: this.position.x+this.width,
         }
+        //voto del player
+        this.voto = 31; 
+        // All'inizio il player può subire danno
+        this.invincibile = false; 
+        // Indica se l'effetto lampeggiante è attivo
+        this.lampeggia = false; 
     }
     //funzione che in base alle info della animazione corrispondente cambia e modifica le principali variabili dello sprite
     cambia_sprite(name){
         if (this.image === this.animazioni[name].image) return
         this.frame_corrente=0
         //imposto a zero perchè se un animazione interrompe un'altra, la seconda deve iniziare da zero
-this.image = this.animazioni[name].image
-//cambio l'immagine del player con quella dell'animazione attualmente selezionata (in base al name fornito viene selezionato l'elemento con quel nome)
-this.numero_frame = this.animazioni[name].framerate
-//cambio del framerate poichè non tutte sono da 16 frame
-this.divisore_frame = this.animazioni[name].divisore_frame
-//il divisore che decide la velocità di selezione del frame, più alto è  più lenta è l'animazione
+        this.image = this.animazioni[name].image
+        //cambio l'immagine del player con quella dell'animazione attualmente selezionata (in base al name fornito viene selezionato l'elemento con quel nome)
+        this.numero_frame = this.animazioni[name].framerate
+        //cambio del framerate poichè non tutte sono da 16 frame
+        this.divisore_frame = this.animazioni[name].divisore_frame
+        //il divisore che decide la velocità di selezione del frame, più alto è  più lenta è l'animazione
     }
     //funzione chiamata alla pressione della barra spaziatrice
     attack(){
@@ -60,9 +66,28 @@ this.divisore_frame = this.animazioni[name].divisore_frame
         if(!this.isattacking)this.isattacking = true
         //if(this.frame_corrente==7)this.isattacking = false
         //usa il frame finale dell'animazione d'attacco come trigger della fine dell'animazione
-        
-        
     }
+    //funzione chiamata per aggiornare il voto del player e applica l'invincibilità per un periodo limitato
+    subisciDanno() {
+        if (this.invincibile) return; // Se è invincibile, ignora il danno
+    
+        this.voto--; // Diminuisce il voto
+        aggiornaVoto(); // Aggiorna il voto visibile sullo schermo
+    
+        this.invincibile = true; // Attiva l'invincibilità
+        this.lampeggia = true; // Inizia l'effetto lampeggiante
+    
+        let lampeggio = setInterval(() => {
+            this.lampeggia = !this.lampeggia; // Alterna lo stato per creare il lampeggio
+        }, 200); // Cambia ogni 200ms
+    
+        setTimeout(() => {
+            clearInterval(lampeggio); // Ferma il lampeggio dopo 2 secondi
+            this.invincibile = false; // Rimuove l'invincibilità
+            this.lampeggia = false; // Rimuove l'effetto lampeggiante
+        }, 2000);
+    }
+    
     
      update(){
         //lo switch case che regola la posizione della hitbox di atatcco
@@ -125,16 +150,15 @@ this.divisore_frame = this.animazioni[name].divisore_frame
             } 
             }
         else nemico.danno=false
-      
-}
-if(this.isattacking){
-    this.timer+=1
-if(this.timer >= 20){
-    this.timer=0
-    this.isattacking=false
-    console.log('FINE ATTACCO')
-}
-}
+    }
+    if(this.isattacking){
+        this.timer+=1
+        if(this.timer >= 20){
+            this.timer=0
+            this.isattacking=false
+            console.log('FINE ATTACCO')
+        }
+    }
         //if(this.frame_corrente==7)this.isattacking = false
         //console.log('atatcco: ',this.isattacking)
         //console.log('ultimo lato:',this.ultimo_lato)
@@ -148,8 +172,9 @@ if(this.timer >= 20){
             y:this.position.y+20
         },
         width: 40,
-        height: 60,}
-//foreach che attraversa tutti i blocchi di collisione prima di aumentare la x
+        height: 60,
+    }
+    //foreach che attraversa tutti i blocchi di collisione prima di aumentare la x
         for (let i = 0; i< this.blocchiCollisione.length; i++){
             const collisionBlock = this.blocchiCollisione[i]
 
@@ -173,7 +198,6 @@ if(this.timer >= 20){
                     break}
                 
             }
-            
             
         }
         //aggiornamento della posizione della hitbox dopo il primo controllo
@@ -212,8 +236,6 @@ if(this.timer >= 20){
                     this.position.y = collisionBlock.position.y- offset -1
                 break}
             }
-            
-            
         }
         
         //c.fillStyle = 'yellow'
@@ -223,5 +245,11 @@ if(this.timer >= 20){
          this.other_sides.bottom=this.position.y+this.height
         
     } else {this.velocity.y = 0 }
+    if (this.lampeggia) {
+        c.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Colore rosso semi-trasparente
+        c.beginPath();
+        c.arc(this.position.x + this.width / 2, this.position.y + this.height / 2, 40, 0, Math.PI * 2);
+        c.fill();
+    }
      }
     }
