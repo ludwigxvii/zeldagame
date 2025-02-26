@@ -492,21 +492,23 @@ function cambiaStanza(nuovoLevel, direzione) {
         level = nuovoLevel;
         levels[level].init(); // Inizializza la nuova stanza
 
-        // Posiziona il player all'entrata della nuova stanza in base alla direzione
+        // Posiziona il player al centro della porta della nuova stanza
         if (direzione === 'destra') {
-            player.position.x = portasinistra.position.x; // Entra da sinistra
+            player.position.x = portasinistra.position.x + (portasinistra.width / 2) - (player.width / 2); // Centro esatto della porta sinistra
+            player.position.y = portasinistra.position.y + (portasinistra.height / 2) - (player.height / 2);
         } else if (direzione === 'sinistra') {
-            player.position.x = portadestra.position.x+(portadestra.width/2);
-            player.position.y = portadestra.position.y+(portadestra.height/2) // Entra da destra
+            player.position.x = portadestra.position.x + (portadestra.width / 2) - (player.width / 2); // Centro esatto della porta destra
+            player.position.y = portadestra.position.y + (portadestra.height / 2) - (player.height / 2);
         } else if (direzione === 'sopra') {
-            player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centra il player
-            player.position.y = portasotto.position.y - player.height ; // Appena sotto la porta
+            player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centro della porta inferiore
+            player.position.y = portasotto.position.y - player.height;
         } else if (direzione === 'sotto') {
-            player.position.x = canvas.width/2 ; // Allinea al centro della porta
-            player.position.y = 80; // Entra dall'alto della stanza sotto
+            player.position.x = portasopra.position.x + (portasopra.width / 2) - (player.width / 2); // Centro della porta superiore
+            player.position.y = portasopra.position.y + portasopra.height;
         }
     }
 }
+
 
 
 
