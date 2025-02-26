@@ -225,7 +225,7 @@ class BlocchiCollisione {
             },
             position2 :{
                 x: 974,
-                y:108
+                y:65
             },
             })
             this.blocchiCollisione.push(lato_alto3)
@@ -235,14 +235,14 @@ class BlocchiCollisione {
                 y:0
             },
             position2 :{
-                x: 84,
+                x: 103,
                 y:674
             },
             })
             this.blocchiCollisione.push(lato_sinistro3)
             const lato_destro3 = new Collisione({
                 position :{
-                x: 950,
+                x: 925,
                 y:0
             },
             position2 :{
@@ -252,26 +252,36 @@ class BlocchiCollisione {
             })
             this.blocchiCollisione.push(lato_destro3)
     
-            const lato_sotto3 = new Collisione({
+            const primolato_sotto3 = new Collisione({
                 position :{
                 x: 0,
                 y:665
             },
             position2 :{
-                x: 1022,
+                x: 470,
                 y:764
             },
             })
-            //this.blocchiCollisione.push(lato_sotto3)
-    
-            const blocco31 = new Collisione({
+            this.blocchiCollisione.push(primolato_sotto3)
+            const secondolato_sotto3 = new Collisione({
                 position :{
-                x: 603,
-                y:275
+                x: 555,
+                y:665
             },
             position2 :{
-                x: 879,
-                y:463
+                x: 1024,
+                y:768
+            },
+            })
+            this.blocchiCollisione.push(secondolato_sotto3)
+            const blocco31 = new Collisione({
+                position :{
+                x: 158,
+                y:131
+            },
+            position2 :{
+                x: 876,
+                y:197
             },
             })
             //blocchi da aggiungere alla mappa in base alla stanza
@@ -279,35 +289,36 @@ class BlocchiCollisione {
     
             const blocco32 = new Collisione({
                 position :{
-                x: 131,
-                y:275
-            },
-            position2 :{
-                x: 406,
-                y:459
+                    x: 223,
+                    y:212
+                },
+                position2 :{
+                    x: 452,
+                    y:255
             },
             })
             this.blocchiCollisione.push(blocco32)
     
             const blocco33 = new Collisione({
+                
                 position :{
-                x: 673,
-                y:66
-            },
-            position2 :{
-                x: 787,
-                y:158
+                    x: 578,
+                    y:212
+                },
+                position2 :{
+                    x: 806,
+                    y:255
             },
             })
             this.blocchiCollisione.push(blocco33)
             const blocco34 = new Collisione({
                 position :{
-                x: 474,
-                y:122
+                x: 235,
+                y:443
             },
             position2 :{
-                x: 559,
-                y:176
+                x: 799,
+                y:504
             },
             })
             this.blocchiCollisione.push(blocco34)
@@ -408,6 +419,119 @@ class BlocchiCollisione {
             this.blocchiCollisione.push(blocco03)
             
         break
+        case 4:
+            const lato_alto4 = new Collisione({
+                position :{
+                x: 0,
+                y:0
+            },
+            position2 :{
+                x: 1024,
+                y:1
+            },
+            })
+            this.blocchiCollisione.push(lato_alto4)
+            const lato_destro4 = new Collisione({
+                position :{
+                x: 1023,
+                y:0
+            },
+            position2 :{
+                x: 1024,
+                y:767
+            },
+            })
+            this.blocchiCollisione.push(lato_destro4)
+            const lato_sinistro4 = new Collisione({
+                position :{
+                x: 0,
+                y:0
+            },
+            position2 :{
+                x: 1,
+                y:767
+            },
+            })
+            this.blocchiCollisione.push(lato_sinistro4)
+            const lato_sotto4 = new Collisione({
+                position :{
+                x: 0,
+                y:767
+            },
+            position2 :{
+                x: 1024,
+                y:768
+            },
+            })
+            this.blocchiCollisione.push(lato_sotto4)
+            const blocco41 = new Collisione({
+                position :{
+                x: 774,
+                y:0
+            },
+            position2 :{
+                x: 975,
+                y:183
+            },
+            })
+            this.blocchiCollisione.push(blocco41)
+            const blocco42 = new Collisione({
+                position :{
+                x: 879,
+                y:117
+            },
+            position2 :{
+                x: 912,
+                y:236
+            },
+            })
+            this.blocchiCollisione.push(blocco42)
+            const blocco43 = new Collisione({
+                position :{
+                x: 548,
+                y:69
+            },
+            position2 :{
+                x: 623,
+                y:373
+            },
+            })
+            this.blocchiCollisione.push(blocco43)
+            const blocco44 = new Collisione({
+                position :{
+                x: 876,
+                y:512
+            },
+            position2 :{
+                x: 1024,
+                y:666
+            },
+            })
+            this.blocchiCollisione.push(blocco44)
+            const blocco45 = new Collisione({
+                position :{
+                x: 783,
+                y:429
+            },
+            position2 :{
+                x: 809,
+                y:553
+            },
+            })
+            this.blocchiCollisione.push(blocco45)
+            const blocco46 = new Collisione({
+                position :{
+                x: 740,
+                y:444
+            },
+            position2 :{
+                x: 840,
+                y:519
+            },
+            })
+            this.blocchiCollisione.push(blocco46)
+            
+            break
     }
         }
         draw(){

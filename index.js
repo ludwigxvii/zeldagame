@@ -3,7 +3,7 @@
 const canvas =document.querySelector('canvas')
 const voto = document.getElementById('voto')
 console.log("Stampa qualcosa")
-voto.innerHTML="voto controllato"
+voto.innerHTML="voto:30"
 canvas.width = 256 * 4
 canvas.height = 256 * 3
 const c = canvas.getContext('2d')
@@ -161,6 +161,28 @@ let levels = {
 
             // Carica l'immagine di sfondo della stanza
             background_stanza.image.src = './immagini/stanze/maptop2.png';
+
+           
+        }
+    },
+    4: {
+        init: () => {
+            player.position.x=618
+            player.position.y=30
+            blockclass = new BlocchiCollisione(4);
+            player.blocchiCollisione = blockclass.blocchiCollisione;
+            console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
+
+            //enemy_group = new Enemy_Group(3);
+            // aggiungere nemici che inseguono
+            //console.log('Nemici caricati:', enemy_group);
+
+            // Assegna i blocchi di collisione anche ai nemici
+            //player.enemies = enemy_group.enemies;
+            enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
+
+            // Carica l'immagine di sfondo della stanza
+            background_stanza.image.src = './immagini/stanze/mapfuori.png';
 
            
         }
@@ -442,8 +464,8 @@ const portasopra = new Sprite({
 });
 
 const portasotto = new Sprite({
-    position: { x: 435, y: 710},
-    source: './immagini/porte/portaverticale.png',
+    position: { x: 384, y: 663},
+    source: './immagini/stanze/porta_sotto_aperta.png',
 });
 
 levels[level].init()
@@ -501,10 +523,10 @@ function cambiaStanza(nuovoLevel, direzione) {
             player.position.y = portadestra.position.y + (portadestra.height / 2) - (player.height / 2);
         } else if (direzione === 'sopra') {
             player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centro della porta inferiore
-            player.position.y = portasotto.position.y - player.height;
+            player.position.y = portasotto.position.y
         } else if (direzione === 'sotto') {
             player.position.x = portasopra.position.x + (portasopra.width / 2) - (player.width / 2); // Centro della porta superiore
-            player.position.y = portasopra.position.y + portasopra.height;
+            player.position.y = portasopra.position.y
         }
     }
 }
