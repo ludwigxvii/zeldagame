@@ -18,21 +18,17 @@ $current_skin=$_SESSION['current_skin'];
             font-size: 50px;
         }
         canvas{
-            
-            border-style: solid;
+            margin: 30px;
+            float: left;
+            border-style: ridge;
     border-color: #ad794a;
-    border-width: 8px;
+    border-width: 20px;
     box-shadow: 8px 8px rgb(0, 0, 0);
         }
         button{
-            
-            margin-top:30px;
-            padding-left: 87px;
-            padding-right: 87px;
-            text-shadow: 2px 2px rgb(0, 0, 0);
-            animation: fade 500ms ease-in-out;
-            animation-delay: 1500ms ;
-            -webkit-animation-fill-mode: forwards;
+            margin-top: 300px;
+            display: inline;
+           font-size: 30px;
         }
     </style>
     <meta charset="UTF-8">
@@ -40,11 +36,12 @@ $current_skin=$_SESSION['current_skin'];
     <title>Link to the Exam</title>
 </head>
 <body>
+   
+    <canvas></canvas>
     <audio id="background-music"></audio>
     <button id="toggle-music"> Play/Pausa</button>
-    <header id="voto">voto
+    <header id="voto">voto:30
     </header>
-    <canvas></canvas>
     <script>
         const current_skin=<?php 
         echo "$current_skin";
