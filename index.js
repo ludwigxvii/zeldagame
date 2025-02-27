@@ -111,9 +111,9 @@ let levels = {
             enemySprite.src = './immagini/nemici/warrior_walkdown.png';
             enemySprite.onload = function () {
                 let nemiciStanza = [
-                    { id: "enemy2A", position: { x: 330, y: 580 } },
-                    { id: "enemy2B", position: { x: 450, y: 580 } },
-                    { id: "enemy2C", position: { x: 570, y: 580 } }
+                    { id: "enemy2A", position: { x: 330, y: 520 } },
+                    { id: "enemy2B", position: { x: 450, y: 520 } },
+                    { id: "enemy2C", position: { x: 570, y: 520 } }
                 ];
             
                 nemiciStanza.forEach(nemico => {
