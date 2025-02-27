@@ -79,7 +79,7 @@ let eliminatedEnemies = new Set();
 
 //level è la variabile che se cambiata cambia la stanza corrente, andrà implementata la collisione della porta nell'index, poi vi mando un
 //video con il minutaggio
-let level = 1;
+let level = 4;
 let levels = {
     1: {
         init: () => {
@@ -209,12 +209,13 @@ let levels = {
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            //enemy_group = new Enemy_Group(3);
+            enemy_group = new Enemy_Group(4);
             // aggiungere nemici che inseguono
+            enemy_group.add(new BossGanon({position:{x:302,y:305},blocchiCollisione:blockclass.blocchiCollisione}))
             //console.log('Nemici caricati:', enemy_group);
 
             // Assegna i blocchi di collisione anche ai nemici
-            //player.enemies = enemy_group.enemies;
+            player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
 
             // Carica l'immagine di sfondo della stanza

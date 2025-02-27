@@ -64,8 +64,7 @@ class Player extends Sprite {
     attack(){
         console.log('attacco')
         if(!this.isattacking)this.isattacking = true
-        //if(this.frame_corrente==7)this.isattacking = false
-        //usa il frame finale dell'animazione d'attacco come trigger della fine dell'animazione
+        
     }
     //funzione chiamata per aggiornare il voto del player e applica l'invincibilità per un periodo limitato
     subisciDanno() {
@@ -132,16 +131,16 @@ class Player extends Sprite {
             
                 switch(this.ultimo_lato){
                     case 'su':
-                    nemico.velocity.y-=0.05
+                    nemico.velocity.y-=0.1
                 break
                 case 'giu':
-                    nemico.velocity.y+=0.05
+                    nemico.velocity.y+=0.1
                 break
                 case 'destra':
-                    nemico.velocity.x+=0.05
+                    nemico.velocity.x+=0.1
                 break
                 case 'sinistra':
-                    nemico.velocity.x=-0.05
+                    nemico.velocity.x=-0.1
                 break
             }   
             if (nemico.vita <= 0) {

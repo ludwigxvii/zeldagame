@@ -96,16 +96,16 @@ class Enemy extends Sprite {
         //console.log('atatcco: ',this.isattacking)
         //console.log('ultimo lato:',this.ultimo_lato)
         this.position.x += this.velocity.x
-        
+        this.position.y += this.velocity.y
         //controllo collisioni orizzontali
         
         this.hitbox = {
             position:{
-            x: this.position.x+30,
-            y:this.position.y+20
+            x: this.position.x,
+            y:this.position.y
         },
-        width: 40,
-        height: 60,}
+        width: this.width,
+        height: this.height,}
 
         for (let i = 0; i< this.blocchiCollisione.length; i++){
             const collisionBlock = this.blocchiCollisione[i]
@@ -132,16 +132,16 @@ class Enemy extends Sprite {
             
             
         }
-        this.position.y += this.velocity.y
         this.hitbox = {
             position:{
-            x: this.position.x+30,
-            y:this.position.y+20
+            x: this.position.x,
+            y:this.position.y
         },
-        width: 40,
-        height: 60,}
+        width: this.width,
+        height: this.height,}
         //visualizzatore hitbox del personaggio, coincide con link per l'animazioni di base
-         //c.fillRect(this.hitbox.position.x,this.hitbox.position.y,this.hitbox.width,this.hitbox.height)
+        c.fillStyle="rgba(164, 67, 67, 0.71)"
+         c.fillRect(this.hitbox.position.x,this.hitbox.position.y,this.hitbox.width,this.hitbox.height)
         
         //check verticale
         for (let i = 0; i< this.blocchiCollisione.length; i++){
@@ -220,8 +220,8 @@ class Enemy extends Sprite {
         update(player) {
             if (!player) return; // Evita errori se player non è definito
     
-            let dx = player.position.x - this.position.x;
-            let dy = player.position.y - this.position.y;
+            let dx = player.position.x - this.position.x-this.width/2;
+            let dy = player.position.y - this.position.y-this.height/2;
             
             let angle = Math.atan2(dy, dx) * (180 / Math.PI); // Calcola angolo in gradi
             
@@ -280,11 +280,12 @@ class Enemy extends Sprite {
                     source: './immagini/nemici/lynel_left.png'
                 }
             };
-    
+            source='./immagini/nemici/lynel_up.png'
             super({id, blocchiCollisione, source, numero_frame, animazioni });
+            this.cambia_sprite('walk_down');
             this.position = { x: position.x, y: position.y };
             this.speed = 1; // Il player si muove a 4, il nemico più lento
-            this.cambia_sprite('walk_down');
+            
         }
     
         update(player) {
@@ -297,9 +298,12 @@ class Enemy extends Sprite {
     
             if (distance > 5) { // Evita tremori quando è molto vicino
                 // Normalizza il movimento e applica la velocità
+                if(this.danno){this.velocity.x = (dx / distance) * (-this.speed);
+                    this.velocity.y = (dy / distance) * (-this.speed);}
+                    else{
                 this.velocity.x = (dx / distance) * this.speed;
                 this.velocity.y = (dy / distance) * this.speed;
-    
+                    }
                 // Controllo per cambiare sprite in base alla direzione
                 if (Math.abs(dx) > Math.abs(dy)) {
                     this.cambia_sprite(dx > 0 ? 'walk_right' : 'walk_left');

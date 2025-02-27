@@ -23,6 +23,7 @@ $current_skin=$_SESSION['current_skin'];
             border-style: ridge;
     border-color: #ad794a;
     border-width: 20px;
+    border: none;
     box-shadow: 8px 8px rgb(0, 0, 0);
         }
         button{
@@ -49,13 +50,18 @@ $current_skin=$_SESSION['current_skin'];
         
         </script>
         <script>// controllo console.log("Skin corrente:",current_skin)</script>
+        
     <script src="classi/Collisione.js"></script>
     <script src="classi/enemy_group.js"></script>
     <script src="classi/BlocchiCollisione.js"></script>
     <script src="classi/Sprite.js"></script>
     <script src="classi/enemy.js"></script>
-    <script src="classi/Player.js"></script>
-    <script src="index.js"></script>
     <script src="classi/projectile.js"></script>
+    <script src="classi/BossGanon.js"></script>
+    <script src="classi/Player.js"></script>
+    
+    
+    <script src="index.js"></script>
+    
 </body>
 </html>

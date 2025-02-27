@@ -419,7 +419,7 @@ class BlocchiCollisione {
             this.blocchiCollisione.push(blocco03)
             
         break
-        case 4:
+        case 5:
             const lato_alto4 = new Collisione({
                 position :{
                 x: 0,
