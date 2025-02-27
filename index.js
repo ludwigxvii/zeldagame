@@ -91,14 +91,7 @@ let levels = {
 
             let enemySprite = new Image();
             enemySprite.src = './immagini/nemici/warrior_walkdown.png';
-            enemySprite.onload = function () {
-                console.log("Immagine caricata correttamente");
-                enemy_group.add(new StationaryEnemy({
-                    numero_frame: 4,
-                    source: enemySprite.src,
-                    blocchiCollisione: blockclass.blocchiCollisione
-                }));
-            };
+            
 
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
