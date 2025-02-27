@@ -213,8 +213,9 @@ class Enemy extends Sprite {
     
             // **Imposta la posizione dal parametro ricevuto**
             this.position = { x: position.x, y: position.y };
-    
-            this.cambia_sprite('walk_down'); // Sprite iniziale
+            this.velocity.y = 1; // Il nemico inizia muovendosi verso il basso
+            this.cambia_sprite('walk_down');
+            this.initialVelocity = this.velocity.y; // Salva la direzione iniziale
         }
     
         update(player) {
@@ -223,23 +224,41 @@ class Enemy extends Sprite {
             let dx = player.position.x - this.position.x-this.width/2;
             let dy = player.position.y - this.position.y-this.height/2;
             
-            let angle = Math.atan2(dy, dx) * (180 / Math.PI); // Calcola angolo in gradi
-            
-            if (angle < 0) {
-                angle += 360; // Porta gli angoli negativi nel range 0-360
+            this.position.y += this.velocity.y;
+
+            if (!this.invincibilita) { // Se non è in invincibilità, continua a muoversi
+                this.position.y += this.velocity.y;
             }
-        
-            // Cambia sprite in base all'angolo
-            if ((angle >= 0 && angle <= 45) || (angle > 315 && angle <= 360)) {
-                this.cambia_sprite('walk_right'); // 0-45° e 316-360° → Destra
-            } else if (angle > 45 && angle <= 135) {
-                this.cambia_sprite('walk_down'); // 46-135° → Sotto
-            } else if (angle > 135 && angle <= 225) {
-                this.cambia_sprite('walk_left'); // 136-225° → Sinistra
-            } else if (angle > 225 && angle <= 315) {
-                this.cambia_sprite('walk_up'); // 226-315° → Sopra
+    
+            // Controllo collisioni verticali
+            for (let i = 0; i < this.blocchiCollisione.length; i++) {
+                const collisionBlock = this.blocchiCollisione[i];
+    
+                if (
+                    this.position.x < collisionBlock.position2.x &&
+                    this.position.x + this.width > collisionBlock.position.x &&
+                    this.position.y < collisionBlock.position2.y &&
+                    this.position.y + this.height > collisionBlock.position.y
+                ) {
+                    // Collisione, cambia direzione
+                    this.velocity.y *= -1;
+                    this.initialVelocity = this.velocity.y; // Aggiorna la direzione da mantenere
+                    this.cambia_sprite(this.velocity.y > 0 ? 'walk_down' : 'walk_up');
+                    this.position.y += this.velocity.y; // Evita sovrapposizioni
+                    break;
+                }
             }
-        
+    
+            // Se subisce un danno, non si ferma, ma continua nella sua direzione
+            if (this.danno && !this.invincibilita) {
+                this.vita--;
+                this.danno = false;
+                this.invincibilita = true;
+                setTimeout(() => {
+                    this.invincibilita = false;
+                    this.velocity.y = this.initialVelocity; // Riprende la direzione originale
+                }, 500); // Dopo 500 ms torna a muoversi
+            }
             // **CONTROLLA SE IL PLAYER È TROPPO VICINO E SUBISCE DANNO**
             let distanza = Math.sqrt(dx * dx + dy * dy);
             if (distanza < 40) { // Se il player è troppo vicino (spazio per attaccare lasciato)
