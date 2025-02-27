@@ -1,6 +1,6 @@
 class Enemy extends Sprite {
     constructor({
-        blocchiCollisione = [], source, numero_frame, animazioni
+        id, blocchiCollisione = [], source, numero_frame, animazioni
     }) {
         super({ source,numero_frame,animazioni })
         this.position={
@@ -13,6 +13,7 @@ class Enemy extends Sprite {
             x:0,
             y:0
         }
+        this.id = id; // Assegna un ID unico
         //immagine dei cuori che mostrano la vita 3 cuori del nemico
         const image_cuori = new Image()
                 image_cuori.src = './immagini/cuori.png'
@@ -180,7 +181,7 @@ class Enemy extends Sprite {
     }
 
     class StationaryEnemy extends Enemy {
-        constructor({ blocchiCollisione = [], source, numero_frame, animazioni, position = { x: 200, y: 300 } }) {
+        constructor({ id, blocchiCollisione = [], source, numero_frame, animazioni, position = { x: 200, y: 300 } }) {
             var animazioni = {
                 walk_up: {
                     framerate: 4,
@@ -208,7 +209,7 @@ class Enemy extends Sprite {
                 },
             };
     
-            super({ blocchiCollisione, source, numero_frame, animazioni });
+            super({id, blocchiCollisione, source, numero_frame, animazioni });
     
             // **Imposta la posizione dal parametro ricevuto**
             this.position = { x: position.x, y: position.y };
@@ -252,7 +253,7 @@ class Enemy extends Sprite {
     
       
     class ChasingEnemy extends Enemy {
-        constructor({ blocchiCollisione = [], source, numero_frame, animazioni, position }) {
+        constructor({id, blocchiCollisione = [], source, numero_frame, animazioni, position }) {
             var animazioni = {
                 walk_up: {
                     framerate: 4,
@@ -280,7 +281,7 @@ class Enemy extends Sprite {
                 }
             };
     
-            super({ blocchiCollisione, source, numero_frame, animazioni });
+            super({id, blocchiCollisione, source, numero_frame, animazioni });
             this.position = { x: position.x, y: position.y };
             this.speed = 1; // Il player si muove a 4, il nemico più lento
             this.cambia_sprite('walk_down');
@@ -338,7 +339,7 @@ class Enemy extends Sprite {
     }
     
     class ShootingEnemy extends Enemy {
-        constructor({ blocchiCollisione = [], source, numero_frame, animazioni, position }) {
+        constructor({id, blocchiCollisione = [], source, numero_frame, animazioni, position }) {
             var animazioni = {
                 walk_up: {
                     framerate: 4,
@@ -366,11 +367,11 @@ class Enemy extends Sprite {
                 }
             };
     
-            super({ blocchiCollisione, source, numero_frame, animazioni });
+            super({id, blocchiCollisione, source, numero_frame, animazioni });
     
             this.position = { x: position.x, y: position.y };
             this.projectiles = [];
-            this.shootInterval = 500;
+            this.shootInterval = 1000;
             this.lastShotTime = 0;
     
             this.cambia_sprite('walk_down');
@@ -379,9 +380,11 @@ class Enemy extends Sprite {
         shoot(direction) {
             this.projectiles.push(new Projectile({
                 position: { x: this.position.x + this.width / 2, y: this.position.y + this.height / 2 },
-                direction: direction
+                direction: direction,
+                blocchiCollisione: this.blocchiCollisione // Passiamo i blocchi di collisione
             }));
         }
+        
     
         update(player) {
             if (!player) return;

@@ -75,6 +75,7 @@ window.addEventListener("beforeunload", function () {
     localStorage.setItem("currentTrack", currentTrack);
 });
 
+let eliminatedEnemies = new Set();
 
 //level è la variabile che se cambiata cambia la stanza corrente, andrà implementata la collisione della porta nell'index, poi vi mando un
 //video con il minutaggio
@@ -116,10 +117,23 @@ let levels = {
             let enemySprite = new Image();
             enemySprite.src = './immagini/nemici/warrior_walkdown.png';
             enemySprite.onload = function () {
-                console.log("Immagine caricata correttamente");
-                enemy_group.add(new StationaryEnemy({ numero_frame: 4, source: enemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 330, y: 580 } }));
-                enemy_group.add(new StationaryEnemy({ numero_frame: 4, source: enemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 450, y: 580 } }));
-                enemy_group.add(new StationaryEnemy({ numero_frame: 4, source: enemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 570, y: 580 } }));
+                let nemiciStanza = [
+                    { id: "enemy2A", position: { x: 330, y: 580 } },
+                    { id: "enemy2B", position: { x: 450, y: 580 } },
+                    { id: "enemy2C", position: { x: 570, y: 580 } }
+                ];
+            
+                nemiciStanza.forEach(nemico => {
+                    if (!eliminatedEnemies.has(nemico.id)) { // Non rigenera i nemici eliminati
+                        enemy_group.add(new StationaryEnemy({
+                            id: nemico.id,
+                            numero_frame: 4,
+                            source: enemySprite.src,
+                            blocchiCollisione: blockclass.blocchiCollisione,
+                            position: nemico.position
+                        }));
+                    }
+                });
             };
             
             player.enemies = enemy_group.enemies;
@@ -137,8 +151,23 @@ let levels = {
             let shootingEnemySprite = new Image();
             shootingEnemySprite.src = './immagini/nemici/red_octorokdown.png';
             shootingEnemySprite.onload = function () {
-                console.log("Immagine caricata correttamente");
-                enemy_group.add(new ShootingEnemy({ numero_frame: 4, source: shootingEnemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 800, y: 580 } }));
+                let nemiciStanza = [
+                    { id: "enemy0A", position: { x: 840, y: 580 } },
+                    { id: "enemy0B", position: { x: 160, y: 160 } },
+                    { id: "enemy0C", position: { x: 160, y: 450 } }
+                ];
+            
+                nemiciStanza.forEach(nemico => {
+                    if (!eliminatedEnemies.has(nemico.id)) { // Non rigenera i nemici eliminati
+                        enemy_group.add(new ShootingEnemy({
+                            id: nemico.id,
+                            numero_frame: 4,
+                            source: shootingEnemySprite.src,
+                            blocchiCollisione: blockclass.blocchiCollisione,
+                            position: nemico.position
+                        }));
+                    }
+                });
             };
             
             player.enemies = enemy_group.enemies;
@@ -150,17 +179,30 @@ let levels = {
         init: () => {
             blockclass = new BlocchiCollisione(3);
             player.blocchiCollisione = blockclass.blocchiCollisione;
-            console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
-
             enemy_group = new Enemy_Group(3);
+    
             let chasingEnemySprite = new Image();
             chasingEnemySprite.src = './immagini/nemici/lynel_down.png';
+    
             chasingEnemySprite.onload = function () {
-                console.log("Immagine caricata correttamente");
-                enemy_group.add(new ChasingEnemy({ numero_frame: 4, source: chasingEnemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 800, y: 580 } }));
-                enemy_group.add(new ChasingEnemy({ numero_frame: 4, source: chasingEnemySprite.src, blocchiCollisione: blockclass.blocchiCollisione, position: { x: 400, y: 580 } }));
+                let nemiciStanza = [
+                    { id: "enemy3A", position: { x: 800, y: 560 } },
+                    { id: "enemy3B", position: { x: 130, y: 560 } }
+                ];
+    
+                nemiciStanza.forEach(nemico => {
+                    if (!eliminatedEnemies.has(nemico.id)) {
+                        enemy_group.add(new ChasingEnemy({
+                            id: nemico.id,
+                            numero_frame: 4,
+                            source: chasingEnemySprite.src,
+                            blocchiCollisione: blockclass.blocchiCollisione,
+                            position: nemico.position
+                        }));
+                    }
+                });
             };
-            
+    
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
             background_stanza.image.src = './immagini/stanze/maptop2.png';

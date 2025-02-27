@@ -144,10 +144,11 @@ class Player extends Sprite {
                     nemico.velocity.x=-0.05
                 break
             }   
-            if(nemico.vita<=0){
-            //sostituite questo spostamento con lo splice di questo elemento nell'array dei nemici 
-            this.enemies.splice(i,1)               
-            } 
+            if (nemico.vita <= 0) {
+                eliminatedEnemies.add(nemico.id);  // Aggiunge il nemico eliminato alla lista globale
+                this.enemies.splice(i, 1);
+            }
+            
             }
         else nemico.danno=false
     }
