@@ -2,8 +2,8 @@ class Projectile {
     constructor({ position, direction, blocchiCollisione }) {
         this.position = { x: position.x, y: position.y };
         this.speed = 6;
-        this.width = 16;
-        this.height = 16;
+        this.width = 30;
+        this.height = 30;
         this.image = new Image();
         this.image.src = './immagini/nemici/proiettile.png';
         this.direction = direction;

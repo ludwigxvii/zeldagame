@@ -33,8 +33,8 @@ class Player extends Sprite {
         this.attack_box = {
             x:this.position.x,
             y:this.position.y,
-            width: 30,
-            height:30,
+            width: 5,
+            height:5,
         }
         //due variabili che possono essere usate ed aggiornate per rappresentare un lato opposto ad x ed y
         this.other_sides = {
@@ -94,28 +94,24 @@ class Player extends Sprite {
         //console.log('il player sta attaccando?:',this.isattacking)
         switch(this.ultimo_lato){
             case 'su':
-                this.attack_box.x=this.position.x+10
-                this.attack_box.y=this.position.y-20
-                this.attack_box.width=80
-                this.attack_box.height=80
+                this.attack_box.x=this.position.x+50
+                this.attack_box.y=this.position.y+5
+                
             break
             case 'giu':
-                this.attack_box.x=this.position.x+10
-                this.attack_box.y=this.position.y+50
-                this.attack_box.width=80
-                this.attack_box.height=80
+                this.attack_box.x=this.position.x+50
+                this.attack_box.y=this.position.y+95
+                
             break
             case 'destra':
-                this.attack_box.x=this.position.x+40
-                this.attack_box.y=this.position.y+5
-                this.attack_box.height=80
-                this.attack_box.width=80
+                this.attack_box.x=this.position.x+95
+                this.attack_box.y=this.position.y+50
+                
             break
             case 'sinistra':
-                this.attack_box.x=this.position.x-20
-                this.attack_box.y=this.position.y+5
-                this.attack_box.height=80
-                this.attack_box.width=80
+                this.attack_box.x=this.position.x+5
+                this.attack_box.y=this.position.y+50
+                
             break
         }
         //questo if può essere inserito in una funzione a parte ma è quello che controlla se uno dei nemici è nella hitbox di attacco, 
@@ -123,10 +119,9 @@ class Player extends Sprite {
         //FONDAMENTALE: QUESTO VA INSERITO IN UN FOREACH DELL'ARRAY DEI NEMICI ESATTAMENET COME IL CONTROLLO DELLE COLLISIONI DEI BLOCCHI
         for (let i = 0; i< this.enemies.length; i++){
             const nemico = this.enemies[i]
-        if( this.isattacking && nemico.position.x+(nemico.width/2) > this.attack_box.x &&
-        nemico.position.x+(nemico.width/2) < this.attack_box.x+this.attack_box.width &&
-        nemico.position.y+(nemico.height/2) > this.attack_box.y && 
-        nemico.position.y+(nemico.height/2) < this.attack_box.y+this.attack_box.height){
+        if(this.isattacking && this.attack_box.x >nemico.hitbox.position.x && this.attack_box.x < nemico.hitbox.position.x+nemico.hitbox.width &&
+            this.attack_box.y >nemico.hitbox.position.y && this.attack_box.y < nemico.hitbox.position.y+nemico.hitbox.height 
+        ){
             nemico.danno=true
             
                 switch(this.ultimo_lato){
@@ -238,18 +233,21 @@ class Player extends Sprite {
             }
         }
         
-        //c.fillStyle = 'yellow'
-        //c.fillRect(this.attack_box.x,this.attack_box.y,this.attack_box.width,this.attack_box.height)
+        c.fillStyle = 'yellow'
+        c.fillRect(this.attack_box.x,this.attack_box.y,this.attack_box.width,this.attack_box.height)
        
     if(this.other_sides.bottom + this.velocity.y < canvas.height){
          this.other_sides.bottom=this.position.y+this.height
         
     } else {this.velocity.y = 0 }
     if (this.lampeggia) {
-        c.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Colore rosso semi-trasparente
-        c.beginPath();
-        c.arc(this.position.x + this.width / 2, this.position.y + this.height / 2, 40, 0, Math.PI * 2);
-        c.fill();
+        //c.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Colore rosso semi-trasparente
+        //c.beginPath();
+        //c.arc(this.position.x + this.width / 2, this.position.y + this.height / 2, 40, 0, Math.PI * 2);
+        //c.fill();
+        var cuore_rotto = new Image();
+        cuore_rotto.src='immagini/cuore_rotto.png'
+        c.drawImage(cuore_rotto,this.position.x+40,this.position.y)
     }
      }
     }

@@ -79,7 +79,7 @@ let eliminatedEnemies = new Set();
 
 //level è la variabile che se cambiata cambia la stanza corrente, andrà implementata la collisione della porta nell'index, poi vi mando un
 //video con il minutaggio
-let level = 4;
+let level = 1;
 let levels = {
     1: {
         init: () => {

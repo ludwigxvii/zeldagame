@@ -28,6 +28,13 @@ class Enemy extends Sprite {
         this.danno=false
         this.timer=0
         console.log('Blocchi di collisione caricati:',this.blocchiCollisione.length)
+        //offset per le hitbox, da regolare per i singoli nemici
+        this.offset_box = {
+            top:0,
+            left:0,
+            down:0,
+            right:0
+        }
         this.attack_box = {
             x:this.position.x,
             y:this.position.y,
@@ -71,7 +78,7 @@ class Enemy extends Sprite {
         }
         if(this.invincibilita){                                              
                 this.timer+=1
-            if(this.timer >= 30){
+            if(this.timer >= 60){
                 this.timer=0
                 this.invincibilita=false
                 this.velocity.x=0
@@ -95,17 +102,17 @@ class Enemy extends Sprite {
         
         //console.log('atatcco: ',this.isattacking)
         //console.log('ultimo lato:',this.ultimo_lato)
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
+        //this.position.x += this.velocity.x
+        //this.position.y += this.velocity.y
         //controllo collisioni orizzontali
         
         this.hitbox = {
             position:{
-            x: this.position.x,
-            y:this.position.y
+            x: this.position.x+this.offset_box.top,
+            y:this.position.y+this.offset_box.left
         },
-        width: this.width,
-        height: this.height,}
+        width: this.width-this.offset_box.right,
+        height: this.height-this.offset_box.down,}
 
         for (let i = 0; i< this.blocchiCollisione.length; i++){
             const collisionBlock = this.blocchiCollisione[i]
@@ -134,11 +141,11 @@ class Enemy extends Sprite {
         }
         this.hitbox = {
             position:{
-            x: this.position.x,
-            y:this.position.y
+            x: this.position.x+this.offset_box.left,
+            y:this.position.y+this.offset_box.top
         },
-        width: this.width,
-        height: this.height,}
+        width: this.width-this.offset_box.right,
+        height: this.height-this.offset_box.down,}
         //visualizzatore hitbox del personaggio, coincide con link per l'animazioni di base
         c.fillStyle="rgba(164, 67, 67, 0.71)"
          c.fillRect(this.hitbox.position.x,this.hitbox.position.y,this.hitbox.width,this.hitbox.height)
@@ -210,7 +217,12 @@ class Enemy extends Sprite {
             };
     
             super({id, blocchiCollisione, source, numero_frame, animazioni });
-    
+            this.offset_box = {
+                top:20,
+                left:30,
+                down:30,
+                right:50
+            }
             // **Imposta la posizione dal parametro ricevuto**
             this.position = { x: position.x, y: position.y };
             this.velocity.y = 1; // Il nemico inizia muovendosi verso il basso
@@ -221,8 +233,8 @@ class Enemy extends Sprite {
         update(player) {
             if (!player) return; // Evita errori se player non è definito
     
-            let dx = player.position.x - this.position.x-this.width/2;
-            let dy = player.position.y - this.position.y-this.height/2;
+            let dx = player.position.x+player.width/2 - this.position.x-this.width/2;
+            let dy = player.position.y+player.height/2 - this.position.y-this.height/2;
             
             this.position.y += this.velocity.y;
 
@@ -261,10 +273,11 @@ class Enemy extends Sprite {
             }
             // **CONTROLLA SE IL PLAYER È TROPPO VICINO E SUBISCE DANNO**
             let distanza = Math.sqrt(dx * dx + dy * dy);
-            if (distanza < 40) { // Se il player è troppo vicino (spazio per attaccare lasciato)
+            if (distanza < 30) { // Se il player è troppo vicino (spazio per attaccare lasciato)
                 player.subisciDanno();
             }
-        
+            this.position.y += this.velocity.x
+            this.position.y += this.velocity.y;
             super.update(); // Mantiene il comportamento base
         }
     }
@@ -304,15 +317,20 @@ class Enemy extends Sprite {
             this.cambia_sprite('walk_down');
             this.position = { x: position.x, y: position.y };
             this.speed = 1; // Il player si muove a 4, il nemico più lento
-            
+            this.offset_box = {
+                top:20,
+                left:30,
+                down:30,
+                right:60
+            }
         }
     
         update(player) {
             if (!player) return;
     
             // Calcola la direzione verso il player
-            let dx = player.position.x - this.position.x;
-            let dy = player.position.y - this.position.y;
+            let dx = player.position.x+player.width/2 - this.position.x-this.width/2;
+        let dy = player.position.y+player.height/2 - this.position.y-this.height/2;
             let distance = Math.sqrt(dx * dx + dy * dy);
     
             if (distance > 5) { // Evita tremori quando è molto vicino
@@ -333,18 +351,25 @@ class Enemy extends Sprite {
                 this.velocity.x = 0;
                 this.velocity.y = 0;
             }
-    
+            this.hitbox = {
+                position:{
+                x: this.position.x+this.offset_box.top,
+                y:this.position.y+this.offset_box.left
+            },
+            width: this.width-this.offset_box.right,
+            height: this.height-this.offset_box.down,}
             // Applica il movimento controllando le collisioni
             this.position.x += this.velocity.x;
+            
             this.position.y += this.velocity.y;
     
             // Controllo collisioni con i blocchi della stanza
             this.blocchiCollisione.forEach(block => {
                 if (
-                    this.position.x < block.position2.x &&
-                    this.position.x + this.width > block.position.x &&
-                    this.position.y < block.position2.y &&
-                    this.position.y + this.height > block.position.y
+                    this.hitbox.position.x < block.position2.x &&
+                    this.hitbox.position.x + this.hitbox.width > block.position.x &&
+                    this.hitbox.position.y < block.position2.y &&
+                    this.hitbox.position.y + this.hitbox.height > block.position.y
                 ) {
                     // Se c'è una collisione, annulla il movimento
                     this.position.x -= this.velocity.x;
