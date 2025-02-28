@@ -24,7 +24,8 @@ ini_set('display_errors', 0);
             echo "</div>";
             echo "<div id=\"score_classifica\">";
             echo "Voto: ";
-            echo $row[1];
+            if($row[1]==31) echo "30 e Lode";
+            else echo $row[1];
             echo "</div>";
             echo "</div>";
       }

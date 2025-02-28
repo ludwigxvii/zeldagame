@@ -5,7 +5,7 @@ if(isset($_SESSION['login_effettuato'])){
     $cognome=$_SESSION['cognome'];
     $nome=$_SESSION['nome'];
     
-}
+} else {$user="nessuno";}
 $current_skin=$_SESSION['current_skin'];
 
 ?>
@@ -31,13 +31,32 @@ $current_skin=$_SESSION['current_skin'];
             display: inline;
            font-size: 30px;
         }
+        #gameover{
+            position: absolute;
+            left: 270px;
+            right: auto;
+            top: 180px;
+            bottom: auto;
+            width: 450px;
+        }
+        small{clear: both;
+            display: block;
+        }
+        #invio_classifica{
+            margin-top: 30px;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Link to the Exam</title>
 </head>
 <body>
-   
+   <main id="gameover">
+    <h1>Il Tuo Voto</h1>
+    <div>Hai ottenuto <span = id="voto_finale">num</span>! </div>
+    <button id="invio_classifica">Invia!</button>
+    <small>Sarai indirizzato alla classifica</small>
+   </main>
     <canvas></canvas>
     <audio id="background-music"></audio>
     <button id="toggle-music"> Play/Pausa</button>
@@ -46,10 +65,18 @@ $current_skin=$_SESSION['current_skin'];
     <script>
         const current_skin=<?php 
         echo "$current_skin";
+        
         ?>;
+        const user_cl="<?php echo "$user";?>";
+        </script>
+        
+        <script>
+        campo_gameover=document.getElementById("gameover")
+        campo_gameover.style.setProperty("display","none")
+        console.log("User corrente: <?php echo "$user"; ?> ")
+        voto_finale=document.getElementById("voto_finale");
         
         </script>
-        <script>// controllo console.log("Skin corrente:",current_skin)</script>
         
     <script src="classi/Collisione.js"></script>
     <script src="classi/enemy_group.js"></script>

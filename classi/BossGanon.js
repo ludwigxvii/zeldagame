@@ -204,6 +204,7 @@ class BossGanon extends Enemy {
     }
 
     update(player) {
+        
         this.cambiaFase();
         console.log("Vita Ganon: ",this.vita,"sta attaccando?",this.isattacking)
         if (this.fase === 2 || this.fase === 3) {
@@ -260,4 +261,6 @@ class BossGanon extends Enemy {
         super.draw();
         this.projectiles.forEach(projectile => projectile.draw());
     }
+    
+    
 }

@@ -79,7 +79,7 @@ let eliminatedEnemies = new Set();
 
 //level è la variabile che se cambiata cambia la stanza corrente, andrà implementata la collisione della porta nell'index, poi vi mando un
 //video con il minutaggio
-let level = 5;
+let level = 1;
 let levels = {
     1: {
         init: () => {
@@ -235,7 +235,7 @@ let levels = {
             enemy_group = new Enemy_Group(4);
             // aggiungere nemici che inseguono
             enemy_group.add(new BossGanon({position:{x:302,y:305},blocchiCollisione:blockclass.blocchiCollisione}))
-            //console.log('Nemici caricati:', enemy_group);
+            console.log('Nemici caricati:', enemy_group);
 
             // Assegna i blocchi di collisione anche ai nemici
             player.enemies = enemy_group.enemies;
@@ -531,7 +531,7 @@ const portasotto = new Sprite({
 //funzione per aggiornare il voto
 function aggiornaVoto() {
     let votoTesto = player.voto === 31 ? "30L" : player.voto;
-    document.getElementById("voto").innerText = `Voto Controllato: ${votoTesto}`;
+    document.getElementById("voto").innerText = `Voto: ${votoTesto}`;
 }
 levels[level].init()
 function checkDoorCollision() {
@@ -595,11 +595,61 @@ function cambiaStanza(nuovoLevel, direzione) {
         }
     }
 }
+function game_over(player){
+    //console.log("GAME OVER")
+    if(player.voto!=31)voto_finale.innerHTML=player.voto
+    else voto_finale.innerHTML="30 e Lode"
+campo_gameover.style.setProperty("display","unset")
+
+invio_classifica=document.getElementById("invio_classifica")
+invio_classifica.onclick= function(){
+
+                    
+var xhr = new XMLHttpRequest();
+
+var dataToSend = "current_user="+user_cl+"&voto="+player.voto;
+// Create a new XMLHttpRequest object
+xhr.open("POST", "punteggio.php", true);
+
+// Specify the request method, PHP script URL, and asynchronous
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+
+// Set the content type
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+
+        // Check if the request is complete
+        if (xhr.status === 200) {
+
+            // Check if the request was successful
+            console.log(xhr.responseText);
+            // Output the response from the PHP script
+        } else {
+            console.error("Error:", xhr.status);
+            // Log an error if the request was unsuccessful
+        }
+
+    }
+   
+}
+    ;
+
+    xhr.send(dataToSend);
+    
+// Send the data to the PHP script
+        
+                document.location.href='classifica.php';
+        }
+
+
+}
 
 
 
 
 function animate(){
+    
     frame_veloce =1
 
     //reset della velocità ad ogni frame così viene decisa solo dal tasto premuto
@@ -675,7 +725,9 @@ function animate(){
     player.draw()
     enemy_group.draw()
     enemy_group.update(player);
-
+    if(level==5){console.log("I nemici nella stanza sono:",enemy_group.enemies.length)
+        if(enemy_group.enemies.length==0)game_over(player)
+    }
     //disegno del frame di animazione relativo al player in se( dato che è diverso da uno sprite generico)
     player.update()
     if (level == 1 || level == 2) {

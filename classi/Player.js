@@ -122,6 +122,7 @@ class Player extends Sprite {
         if(this.isattacking && this.attack_box.x >nemico.hitbox.position.x && this.attack_box.x < nemico.hitbox.position.x+nemico.hitbox.width &&
             this.attack_box.y >nemico.hitbox.position.y && this.attack_box.y < nemico.hitbox.position.y+nemico.hitbox.height 
         ){
+            //nemico.vita=0;
             nemico.danno=true
             
                 switch(this.ultimo_lato){
