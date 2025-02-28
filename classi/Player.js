@@ -233,8 +233,8 @@ class Player extends Sprite {
             }
         }
         
-        c.fillStyle = 'yellow'
-        c.fillRect(this.attack_box.x,this.attack_box.y,this.attack_box.width,this.attack_box.height)
+        //c.fillStyle = 'yellow'
+        //c.fillRect(this.attack_box.x,this.attack_box.y,this.attack_box.width,this.attack_box.height)
        
     if(this.other_sides.bottom + this.velocity.y < canvas.height){
          this.other_sides.bottom=this.position.y+this.height

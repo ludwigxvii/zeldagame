@@ -87,13 +87,7 @@ class Enemy extends Sprite {
             }
         
         }
-        this.healthbar = {
-            x:(this.position.x+this.width/2)-25,
-            y:(this.position.y+7),
-            width:46,
-            green_width:((this.vita-this.initial_vita)/this.initial_vita)*46,
-            height:12
-        }
+       
         c.drawImage(this.cuori,this.healthbar.green_width,
         0,this.healthbar.width,this.healthbar.height, this.healthbar.x,
           this.healthbar.y, this.healthbar.width, this.healthbar.height)
@@ -105,40 +99,7 @@ class Enemy extends Sprite {
         //this.position.x += this.velocity.x
         //this.position.y += this.velocity.y
         //controllo collisioni orizzontali
-        
-        this.hitbox = {
-            position:{
-            x: this.position.x+this.offset_box.top,
-            y:this.position.y+this.offset_box.left
-        },
-        width: this.width-this.offset_box.right,
-        height: this.height-this.offset_box.down,}
-
-        for (let i = 0; i< this.blocchiCollisione.length; i++){
-            const collisionBlock = this.blocchiCollisione[i]
-
-
-            if(this.hitbox.position.x <= collisionBlock.position2.x &&
-                this.hitbox.position.x+ this.hitbox.width >= collisionBlock.position.x &&
-                this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
-                this.hitbox.position.y <= collisionBlock.position2.y
-                ){
-                    //collisione sulle varie direzioni
-                console.log('COLLISIONE')
-                if(this.velocity.x <-0) {
-                    const offset = this.hitbox.position.x - this.position.x
-                    this.position.x = collisionBlock.position2.x-offset+1
-                    break}
-                if(this.velocity.x > 0) {
-                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
-                    this.position.x = collisionBlock.position.x-offset-1
-                    
-                    break}
-                
-            }
-            
-            
-        }
+        //this.position.y+=this.velocity.y;
         this.hitbox = {
             position:{
             x: this.position.x+this.offset_box.left,
@@ -147,8 +108,8 @@ class Enemy extends Sprite {
         width: this.width-this.offset_box.right,
         height: this.height-this.offset_box.down,}
         //visualizzatore hitbox del personaggio, coincide con link per l'animazioni di base
-        c.fillStyle="rgba(164, 67, 67, 0.71)"
-         c.fillRect(this.hitbox.position.x,this.hitbox.position.y,this.hitbox.width,this.hitbox.height)
+        //c.fillStyle="rgba(164, 67, 67, 0.71)"
+         //c.fillRect(this.hitbox.position.x,this.hitbox.position.y,this.hitbox.width,this.hitbox.height)
         
         //check verticale
         for (let i = 0; i< this.blocchiCollisione.length; i++){
@@ -164,11 +125,12 @@ class Enemy extends Sprite {
                 console.log('COLLISIONE')
                 
                 if(this.velocity.y <0) {
+                    this.velocity.x =0;
                     const offset = this.hitbox.position.y - this.position.y
                     this.position.y = collisionBlock.position2.y- offset +1
                 break}
                 if(this.velocity.y > 0) {
-                    
+                    this.velocity.x =0;
                     const offset = this.hitbox.position.y - this.position.y + this.hitbox.height
                     this.position.y = collisionBlock.position.y- offset -1
                 break}
@@ -176,7 +138,43 @@ class Enemy extends Sprite {
             
             
         }
+        //this.position.x+=this.velocity.x
+        this.hitbox = {
+            position:{
+            x: this.position.x+this.offset_box.top,
+            y:this.position.y+this.offset_box.left
+        },
+        width: this.width-this.offset_box.right,
+        height: this.height-this.offset_box.down,}
         
+        for (let i = 0; i< this.blocchiCollisione.length; i++){
+            const collisionBlock = this.blocchiCollisione[i]
+
+
+            if(this.hitbox.position.x <= collisionBlock.position2.x &&
+                this.hitbox.position.x+ this.hitbox.width >= collisionBlock.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
+                this.hitbox.position.y <= collisionBlock.position2.y
+                ){
+                    //collisione sulle varie direzioni
+                console.log('COLLISIONE')
+                if(this.velocity.x <-0) {
+                    this.velocity.y =0;
+                    const offset = this.hitbox.position.x - this.position.x
+                    this.position.x = collisionBlock.position2.x-offset+1
+                    
+                    break}
+                if(this.velocity.x > 0) {
+                    this.velocity.y =0;
+                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
+                    this.position.x = collisionBlock.position.x-offset-1
+                    
+                    break}
+                
+            }
+            
+            
+        }
         //c.fillStyle = 'yellow'
         //c.fillRect(this.attack_box.x,this.attack_box.y,this.attack_box.width,this.attack_box.height)
        
@@ -278,6 +276,13 @@ class Enemy extends Sprite {
             }
             this.position.y += this.velocity.x
             this.position.y += this.velocity.y;
+            this.healthbar = {
+                x:(this.position.x+this.width/2)-25,
+                y:(this.position.y+7),
+                width:46,
+                green_width:((this.vita-this.initial_vita)/this.initial_vita)*46,
+                height:12
+            }
             super.update(); // Mantiene il comportamento base
         }
     }
@@ -359,9 +364,7 @@ class Enemy extends Sprite {
             width: this.width-this.offset_box.right,
             height: this.height-this.offset_box.down,}
             // Applica il movimento controllando le collisioni
-            this.position.x += this.velocity.x;
             
-            this.position.y += this.velocity.y;
     
             // Controllo collisioni con i blocchi della stanza
             this.blocchiCollisione.forEach(block => {
@@ -381,7 +384,15 @@ class Enemy extends Sprite {
             if (distance < 40) {
                 player.subisciDanno();
             }
-    
+            this.healthbar = {
+                x:(this.position.x+this.width/2)-25,
+                y:(this.position.y+7),
+                width:46,
+                green_width:((this.vita-this.initial_vita)/this.initial_vita)*46,
+                height:12
+            }
+            this.position.x += this.velocity.x
+            this.position.y += this.velocity.y
             super.update();
         }
     }
@@ -473,7 +484,13 @@ class Enemy extends Sprite {
                     this.projectiles.splice(index, 1);
                 }
             });
-    
+            this.healthbar = {
+                x:(this.position.x+this.width/2)-25,
+                y:(this.position.y+7),
+                width:46,
+                green_width:((this.vita-this.initial_vita)/this.initial_vita)*46,
+                height:12
+            }
             super.update();
         }
     

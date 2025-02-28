@@ -79,7 +79,7 @@ let eliminatedEnemies = new Set();
 
 //level è la variabile che se cambiata cambia la stanza corrente, andrà implementata la collisione della porta nell'index, poi vi mando un
 //video con il minutaggio
-let level = 1;
+let level = 5;
 let levels = {
     1: {
         init: () => {
@@ -203,9 +203,32 @@ let levels = {
     },
     4: {
         init: () => {
+            player.position.x=620
+            player.position.y=465
+            blockclass = new BlocchiCollisione(4);
+            player.blocchiCollisione = blockclass.blocchiCollisione;
+            console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
+
+            //enemy_group = new Enemy_Group(4);
+            // aggiungere nemici che inseguono
+            
+            //console.log('Nemici caricati:', enemy_group);
+
+            // Assegna i blocchi di collisione anche ai nemici
+            //player.enemies = enemy_group.enemies;
+            //enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
+
+            // Carica l'immagine di sfondo della stanza
+            background_stanza.image.src = './immagini/stanze/mapfuori.png';
+
+           
+        }
+    },
+    5: {
+        init: () => {
             player.position.x=618
             player.position.y=30
-            blockclass = new BlocchiCollisione(4);
+            blockclass = new BlocchiCollisione(5);
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
@@ -219,7 +242,7 @@ let levels = {
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
 
             // Carica l'immagine di sfondo della stanza
-            background_stanza.image.src = './immagini/stanze/mapfuori.png';
+            background_stanza.image.src = './immagini/stanze/mapboss.png';
 
            
         }

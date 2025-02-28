@@ -82,6 +82,13 @@ class BossGanon extends Enemy {
         this.offset_box.left=50;
         this.offset_box.right=110;
         this.offset_box.down=120
+        const image_cuori = new Image()
+                image_cuori.src = './immagini/ganon_healt.png'
+                this.cuori = image_cuori
+                const image_cont = new Image()
+                image_cont.src = './immagini/ganon_container.png'
+                this.container = image_cont
+        
     }
 
     cambiaFase() {
@@ -235,8 +242,18 @@ class BossGanon extends Enemy {
         }
     }
     this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
+            this.position.y += this.velocity.y
+            this.healthbar = {
+                x:320+((this.vita-this.initial_vita)/this.initial_vita)*this.cuori.width,
+                y:650,
+                width:this.cuori.width,
+                green_width:((this.vita-this.initial_vita)/this.initial_vita)*this.cuori.width,
+                height:this.cuori.height
+            }
+            
+            c.drawImage(this.container,320,650)
         super.update();
+        
     }
 
     draw() {
