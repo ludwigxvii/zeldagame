@@ -37,7 +37,7 @@ $current_skin=$_SESSION['current_skin'];
             border-style: ridge;
     border-color: #ad794a;
     border-width: 20px;
-    border: none;
+    
     box-shadow: 8px 8px rgb(0, 0, 0);
         }
         button{

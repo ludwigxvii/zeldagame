@@ -102,6 +102,47 @@ class Enemy extends Sprite {
         //this.position.y+=this.velocity.y;
         this.hitbox = {
             position:{
+            x: this.position.x+this.offset_box.top,
+            y:this.position.y+this.offset_box.left
+        },
+        width: this.width-this.offset_box.right,
+        height: this.height-this.offset_box.down,}
+        
+        for (let i = 0; i< this.blocchiCollisione.length; i++){
+            const collisionBlock = this.blocchiCollisione[i]
+
+
+            if(this.hitbox.position.x <= collisionBlock.position2.x &&
+                this.hitbox.position.x+ this.hitbox.width >= collisionBlock.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
+                this.hitbox.position.y <= collisionBlock.position2.y
+                ){
+                    //collisione sulle varie direzioni
+                console.log('COLLISIONE')
+                
+                if(this.velocity.x <-0) {
+                    
+                    const offset = this.hitbox.position.x - this.position.x
+                    this.position.x = collisionBlock.position2.x-offset+1
+                    
+                    break}
+                    
+                    
+                if(this.velocity.x > 0) {
+                    
+                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
+                    this.position.x = collisionBlock.position.x-offset-1
+                    
+                    break}
+                
+            }
+            
+            
+        }
+
+
+        this.hitbox = {
+            position:{
             x: this.position.x+this.offset_box.left,
             y:this.position.y+this.offset_box.top
         },
@@ -125,12 +166,13 @@ class Enemy extends Sprite {
                 console.log('COLLISIONE')
                 
                 if(this.velocity.y <0) {
-                    this.velocity.x =0;
+                    
                     const offset = this.hitbox.position.y - this.position.y
                     this.position.y = collisionBlock.position2.y- offset +1
                 break}
+                
                 if(this.velocity.y > 0) {
-                    this.velocity.x =0;
+                    
                     const offset = this.hitbox.position.y - this.position.y + this.hitbox.height
                     this.position.y = collisionBlock.position.y- offset -1
                 break}
@@ -139,42 +181,7 @@ class Enemy extends Sprite {
             
         }
         //this.position.x+=this.velocity.x
-        this.hitbox = {
-            position:{
-            x: this.position.x+this.offset_box.top,
-            y:this.position.y+this.offset_box.left
-        },
-        width: this.width-this.offset_box.right,
-        height: this.height-this.offset_box.down,}
         
-        for (let i = 0; i< this.blocchiCollisione.length; i++){
-            const collisionBlock = this.blocchiCollisione[i]
-
-
-            if(this.hitbox.position.x <= collisionBlock.position2.x &&
-                this.hitbox.position.x+ this.hitbox.width >= collisionBlock.position.x &&
-                this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
-                this.hitbox.position.y <= collisionBlock.position2.y
-                ){
-                    //collisione sulle varie direzioni
-                console.log('COLLISIONE')
-                if(this.velocity.x <-0) {
-                    this.velocity.y =0;
-                    const offset = this.hitbox.position.x - this.position.x
-                    this.position.x = collisionBlock.position2.x-offset+1
-                    
-                    break}
-                if(this.velocity.x > 0) {
-                    this.velocity.y =0;
-                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width
-                    this.position.x = collisionBlock.position.x-offset-1
-                    
-                    break}
-                
-            }
-            
-            
-        }
         //c.fillStyle = 'yellow'
         //c.fillRect(this.attack_box.x,this.attack_box.y,this.attack_box.width,this.attack_box.height)
        
@@ -365,7 +372,7 @@ class Enemy extends Sprite {
             height: this.height-this.offset_box.down,}
             // Applica il movimento controllando le collisioni
             
-    
+            /*
             // Controllo collisioni con i blocchi della stanza
             this.blocchiCollisione.forEach(block => {
                 if (
@@ -375,10 +382,10 @@ class Enemy extends Sprite {
                     this.hitbox.position.y + this.hitbox.height > block.position.y
                 ) {
                     // Se c'è una collisione, annulla il movimento
-                    this.position.x -= this.velocity.x;
-                    this.position.y -= this.velocity.y;
+                    this.position.x -= this.velocity.x*2;
+                    this.position.y -= this.velocity.y*2;
                 }
-            });
+            });*/
     
             // Controlla se il player è troppo vicino e infligge danno
             if (distance < 40) {
