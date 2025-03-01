@@ -119,8 +119,8 @@ let levels = {
     
             chasingEnemySprite.onload = function () {
                 let nemiciStanza = [
-                    { id: "enemy3A", position: { x: 800, y: 560 } },
-                    { id: "enemy3B", position: { x: 130, y: 560 } }
+                    { id: "enemy3A", position: { x: 820, y: 400 } },
+                    { id: "enemy3B", position: { x: 110, y: 400 } }
                 ];
     
                 nemiciStanza.forEach(nemico => {
