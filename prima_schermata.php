@@ -39,9 +39,9 @@ session_start();
         color: rgb(255, 0, 0);}
    }
         #bottone2{
-            
+            color:rgb(176, 53, 53);
             cursor: pointer;
-            text-shadow: 1px 1px rgb(255, 255, 255);
+            text-shadow: 2px 2px rgb(0, 0, 0);
         }
         #zona_login{
             display: none;
@@ -53,6 +53,7 @@ session_start();
             font-size: 40px;
             padding: 30px;
             margin: 30px;
+            clear: both;
         }
         #zona_login .zonalogin{
     padding-bottom: 125px;

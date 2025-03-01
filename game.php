@@ -14,8 +14,22 @@ $current_skin=$_SESSION['current_skin'];
 <head>
     <link rel="stylesheet" type="text/css" href="stilelogin.css">
     <style>
-        header{
+        #voto{
+            
+            display: block;
+            margin-top: 230px;
+            padding: 20px;
             font-size: 50px;
+            box-shadow: 4px 4px rgb(0, 0, 0);
+            margin-right: 80px;
+    float: right;
+    text-align: center;
+    background-image: url(immagini/pattern.jpg);
+    background-size: 12%;
+    border-style: ridge;
+    border-width: 20px;
+    border-color: rgb(198, 142, 94);
+    border-radius: 20px;
         }
         canvas{
             margin: 30px;
@@ -23,12 +37,17 @@ $current_skin=$_SESSION['current_skin'];
             border-style: ridge;
     border-color: #ad794a;
     border-width: 20px;
-    
+    border: none;
     box-shadow: 8px 8px rgb(0, 0, 0);
         }
         button{
-            margin-top: 300px;
-            display: inline;
+            clear: right;
+            float: right;
+            display: block;
+            padding: 10px;
+            margin-top: 200px;
+            margin-right: 150px;
+            margin-bottom: 50px;
            font-size: 30px;
         }
         #gameover{
@@ -59,9 +78,10 @@ $current_skin=$_SESSION['current_skin'];
    </main>
     <canvas></canvas>
     <audio id="background-music"></audio>
-    <button id="toggle-music"> Play/Pausa</button>
-    <header id="voto">voto:30
-    </header>
+    <div id="voto">voto:30
+    </div>
+    <button id="toggle-music"><img src="immagini/sound.png" alt="" width="80"></button>
+    
     <script>
         const current_skin=<?php 
         echo "$current_skin";
@@ -71,6 +91,67 @@ $current_skin=$_SESSION['current_skin'];
         </script>
         
         <script>
+            //dichiarazione audio
+const music = document.getElementById("background-music");
+const musicButton = document.getElementById("toggle-music");
+var audio_attack = new Audio('suoni/attack.wav');
+        audio_attack.volume=0.02
+// Lista delle canzoni
+const playlist = [
+    "suoni/music1.mp3",
+    "suoni/music2.mp3",
+    "suoni/music3.mp3"
+];
+
+let currentTrack = 0; // Traccia attuale
+
+// Funzione per riprodurre la traccia attuale
+function playMusic() {
+    music.src = playlist[currentTrack]; // Imposta il file audio
+    music.play();
+}
+
+// Quando la traccia finisce, passa alla successiva
+music.addEventListener("ended", function () {
+    currentTrack = (currentTrack + 1) % playlist.length; // Passa alla successiva o ricomincia
+    playMusic();
+});
+
+// Bottone per attivare/disattivare la musica
+musicButton.addEventListener("click", function () {
+    if (music.paused) {
+        playMusic();
+        musicButton.firstChild.src = "immagini/mute.png";
+    } else {
+        music.pause();
+        musicButton.firstChild.src = "immagini/sound.png";
+    }
+});
+
+// Avvio automatico dopo un'interazione
+document.addEventListener("click", function () {
+    if (music.paused) {
+        playMusic();
+    }
+}, { once: true }); // L'evento viene eseguito solo una volta
+
+// Controllo se una musica era già in riproduzione
+if (localStorage.getItem("currentTrack")) {
+    currentTrack = parseInt(localStorage.getItem("currentTrack"));
+}
+
+// Salva la traccia attuale ogni volta che cambia
+music.addEventListener("ended", function () {
+    currentTrack = (currentTrack + 1) % playlist.length;
+    localStorage.setItem("currentTrack", currentTrack); // Salva la traccia
+    playMusic();
+});
+
+// Quando cambia pagina, mantiene lo stato della musica
+window.addEventListener("beforeunload", function () {
+    localStorage.setItem("currentTrack", currentTrack);
+});
+
         campo_gameover=document.getElementById("gameover")
         campo_gameover.style.setProperty("display","none")
         console.log("User corrente: <?php echo "$user"; ?> ")

@@ -5,8 +5,8 @@ class Collisione {
     }
      draw(){
         
-        //c.fillStyle = 'rgba(255, 0, 0, 0.29)'
-    //c.fillRect(this.position.x,this.position.y,(this.position2.x-this.position.x),(this.position2.y-this.position.y))
+        c.fillStyle = 'rgba(255, 0, 0, 0.29)'
+    c.fillRect(this.position.x,this.position.y,(this.position2.x-this.position.x),(this.position2.y-this.position.y))
      }
    
     }

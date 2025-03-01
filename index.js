@@ -14,66 +14,6 @@ const pulsanti = {
     destra: {pressed: false},
     sinistra: {pressed: false}
 }
-//dichiarazione audio
-const music = document.getElementById("background-music");
-const musicButton = document.getElementById("toggle-music");
-var audio_attack = new Audio('suoni/attack.wav');
-        audio_attack.volume=0.02
-// Lista delle canzoni
-const playlist = [
-    "suoni/music1.mp3",
-    "suoni/music2.mp3",
-    "suoni/music3.mp3"
-];
-
-let currentTrack = 0; // Traccia attuale
-
-// Funzione per riprodurre la traccia attuale
-function playMusic() {
-    music.src = playlist[currentTrack]; // Imposta il file audio
-    music.play();
-}
-
-// Quando la traccia finisce, passa alla successiva
-music.addEventListener("ended", function () {
-    currentTrack = (currentTrack + 1) % playlist.length; // Passa alla successiva o ricomincia
-    playMusic();
-});
-
-// Bottone per attivare/disattivare la musica
-musicButton.addEventListener("click", function () {
-    if (music.paused) {
-        playMusic();
-        musicButton.textContent = " Mute";
-    } else {
-        music.pause();
-        musicButton.textContent = " Play";
-    }
-});
-
-// Avvio automatico dopo un'interazione
-document.addEventListener("click", function () {
-    if (music.paused) {
-        playMusic();
-    }
-}, { once: true }); // L'evento viene eseguito solo una volta
-
-// Controllo se una musica era già in riproduzione
-if (localStorage.getItem("currentTrack")) {
-    currentTrack = parseInt(localStorage.getItem("currentTrack"));
-}
-
-// Salva la traccia attuale ogni volta che cambia
-music.addEventListener("ended", function () {
-    currentTrack = (currentTrack + 1) % playlist.length;
-    localStorage.setItem("currentTrack", currentTrack); // Salva la traccia
-    playMusic();
-});
-
-// Quando cambia pagina, mantiene lo stato della musica
-window.addEventListener("beforeunload", function () {
-    localStorage.setItem("currentTrack", currentTrack);
-});
 
 let eliminatedEnemies = new Set();
 
@@ -198,18 +138,16 @@ let levels = {
     
             player.enemies = enemy_group.enemies;
             enemy_group.blocchiCollisione = blockclass.blocchiCollisione;
-            background_stanza.image.src = './immagini/stanze/maptop2.png';
+            background_stanza.image.src = './immagini/stanze/maptopv3.png';
         }
     },
     4: {
         init: () => {
-            player.position.x=620
-            player.position.y=465
             blockclass = new BlocchiCollisione(4);
             player.blocchiCollisione = blockclass.blocchiCollisione;
             console.log('Blocchi di collisione caricati:', player.blocchiCollisione.length);
 
-            //enemy_group = new Enemy_Group(4);
+            enemy_group = new Enemy_Group(4);
             // aggiungere nemici che inseguono
             
             //console.log('Nemici caricati:', enemy_group);
@@ -523,6 +461,10 @@ const portasopra = new Sprite({
     position: { x: 395, y: 0 },
     source: './immagini/stanze/porta_sopra_aperta.png',
 });
+const portaboss = new Sprite({
+    position: { x: 395, y: 0 },
+    source: './immagini/stanze/porta_boss_aperta.png',
+});
 
 const portasotto = new Sprite({
     position: { x: 384, y: 663},
@@ -562,7 +504,8 @@ function checkDoorCollision() {
         player.position.y <= portasopra.position.y + portasopra.height-200 &&
         player.position.y+player.height >= portasopra.position.y-200
     ) {
-        cambiaStanza(level + 2, 'sopra'); // Passa alla stanza sopra (3)
+        if(level==3)cambiaStanza(level + 1, 'sopra');
+        else cambiaStanza(level + 2, 'sopra'); // Passa alla stanza sopra (3)
     }
     if (
         player.position.x + player.width >= portasotto.position.x &&
@@ -587,8 +530,12 @@ function cambiaStanza(nuovoLevel, direzione) {
             player.position.x = portadestra.position.x + (portadestra.width / 2) - (player.width / 2); // Centro esatto della porta destra
             player.position.y = portadestra.position.y + (portadestra.height / 2) - (player.height / 2);
         } else if (direzione === 'sopra') {
-            player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centro della porta inferiore
-            player.position.y = portasotto.position.y
+            if(nuovoLevel==4){
+                player.position.x=598
+            player.position.y=451
+            } else {player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centro della porta inferiore
+            player.position.y = portasotto.position.y}
+            
         } else if (direzione === 'sotto') {
             player.position.x = portasopra.position.x + (portasopra.width / 2) - (player.width / 2); // Centro della porta superiore
             player.position.y = portasopra.position.y
@@ -709,18 +656,7 @@ function animate(){
     //DISEGNO BACKGROUND
     background_stanza.draw()
     // Disegna le porte solo se sono visibili
-    if (level == 1 || level == 2) {
-        portasinistra.draw();
-    }
-    if (level == 1 || level == 0){
-        portadestra.draw();
-    }
-    if (level == 1){
-        portasopra.draw();
-    }
-    if (level == 3){
-        portasotto.draw();
-    }
+    
     //disegno del player e del nemico
     player.draw()
     enemy_group.draw()
@@ -741,6 +677,7 @@ function animate(){
     }
     if (level == 3){
         portasotto.draw();
+        portaboss.draw()
     }
     //chiama la funzione per aggiornare il voto
     aggiornaVoto();
