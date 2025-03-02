@@ -546,7 +546,11 @@ function cambiaStanza(nuovoLevel, direzione) {
             if(nuovoLevel==4){
                 player.position.x=598
             player.position.y=451
-            } else {player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centro della porta inferiore
+            } else if(nuovoLevel==5){
+                player.position.x=456
+                player.position.y=540
+            }else
+            {player.position.x = portasotto.position.x + (portasotto.width / 2) - (player.width / 2); // Centro della porta inferiore
             player.position.y = portasotto.position.y}
             
         } else if (direzione === 'sotto') {
