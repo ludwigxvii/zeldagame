@@ -243,9 +243,7 @@ class Enemy extends Sprite {
             
             this.position.y += this.velocity.y;
 
-            if (!this.invincibilita) { // Se non è in invincibilità, continua a muoversi
-                this.position.y += this.velocity.y;
-            }
+            
     
             // Controllo collisioni verticali
             for (let i = 0; i < this.blocchiCollisione.length; i++) {
@@ -266,12 +264,17 @@ class Enemy extends Sprite {
                 }
             }
     
-            // Se subisce un danno, non si ferma, ma continua nella sua direzione
             if (this.danno && !this.invincibilita) {
                 this.vita--;
                 this.danno = false;
                 this.invincibilita = true;
-                setTimeout(() => { this.invincibilita = false; }, 500);
+                
+                // Mantiene la velocità costante anche durante l'invincibilità
+                let velocitaAttuale = this.velocity.y;  
+                setTimeout(() => { 
+                    this.invincibilita = false;
+                    this.velocity.y = velocitaAttuale; // Riporta la velocità alla direzione originale
+                }, 500);
             }
             
             // **CONTROLLA SE IL PLAYER È TROPPO VICINO E SUBISCE DANNO**
