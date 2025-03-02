@@ -608,7 +608,8 @@ xhr.onreadystatechange = function () {
 
 
 }
-
+var porta_chiusa= new Image()
+porta_chiusa.src='./immagini/stanze/porta_sinistra_aperta.png'
 
 
 
@@ -680,7 +681,10 @@ function animate(){
     enemy_group.update(player);
     if(level==5){console.log("I nemici nella stanza sono:",enemy_group.enemies.length)
         if(enemy_group.enemies.length==0)game_over(player)
-    }
+    }else {
+
+}
+    
     //disegno del frame di animazione relativo al player in se( dato che è diverso da uno sprite generico)
     player.update()
     if (level == 1 || level == 2) {
@@ -695,6 +699,7 @@ function animate(){
     if (level == 3){
         portasotto.draw();
         portaboss.draw()
+        
     }
     //chiama la funzione per aggiornare il voto
     aggiornaVoto();
