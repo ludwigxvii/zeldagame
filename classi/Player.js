@@ -124,21 +124,7 @@ class Player extends Sprite {
         ){
             //nemico.vita=0;
             nemico.danno=true
-            
-                switch(this.ultimo_lato){
-                    case 'su':
-                    nemico.velocity.y-=0.1
-                break
-                case 'giu':
-                    nemico.velocity.y+=0.1
-                break
-                case 'destra':
-                    nemico.velocity.x+=0.1
-                break
-                case 'sinistra':
-                    nemico.velocity.x=-0.1
-                break
-            }   
+               
             if (nemico.vita <= 0) {
                 eliminatedEnemies.add(nemico.id);  // Aggiunge il nemico eliminato alla lista globale
                 this.enemies.splice(i, 1);
