@@ -504,8 +504,24 @@ function checkDoorCollision() {
         player.position.y <= portasopra.position.y + portasopra.height-200 &&
         player.position.y+player.height >= portasopra.position.y-200
     ) {
-        if(level==3)cambiaStanza(level + 1, 'sopra');
-        else cambiaStanza(level + 2, 'sopra'); // Passa alla stanza sopra (3)
+        if (level === 3) {
+            // Controlliamo se tutti i nemici delle stanze 0, 2 e 3 sono stati eliminati
+            let nemiciRichiesti = ["enemy0A", "enemy0B", "enemy0C", 
+                                   "enemy2A", "enemy2B", "enemy2C", 
+                                   "enemy3A", "enemy3B"];
+
+            let tuttiEliminati = nemiciRichiesti.every(nemico => eliminatedEnemies.has(nemico));
+
+            if (tuttiEliminati) {
+                cambiaStanza(4, 'sopra'); // Passa alla stanza 4
+            } else {
+                alert("Non hai ucciso tutti i nemici!");
+                player.position.y += 200; // Sposta indietro il player per evitare che resti bloccato sulla porta
+                pulsanti.su.pressed = false; // Ferma l'input della freccia su
+            }
+        } else {
+            cambiaStanza(level + 2, 'sopra'); // Passa alla stanza sopra (3)
+        }
     }
     if (
         player.position.x + player.width >= portasotto.position.x &&
