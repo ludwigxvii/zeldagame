@@ -85,7 +85,7 @@ let levels = {
             shootingEnemySprite.src = './immagini/nemici/red_octorokdown.png';
             shootingEnemySprite.onload = function () {
                 let nemiciStanza = [
-                    { id: "enemy0A", position: { x: 840, y: 580 } },
+                    { id: "enemy0A", position: { x: 820, y: 550 } },
                     { id: "enemy0B", position: { x: 160, y: 160 } },
                     { id: "enemy0C", position: { x: 160, y: 450 } }
                 ];
@@ -514,6 +514,19 @@ function checkDoorCollision() {
         player.position.y+player.height >= portasotto.position.y+200
     ) {
         cambiaStanza(level - 2, 'sotto'); // Passa alla stanza sotto (1)
+    }
+    // Controllo collisione con il recinto nella stanza 4
+    if (level === 4) {
+        let recintoGanon = { x: 260, y: 480, width: 0, height: 0 }; // Regola questi valori in base alla posizione reale
+        if (
+            player.position.x + player.width >= recintoGanon.x &&
+            player.position.x <= recintoGanon.x + recintoGanon.width &&
+            player.position.y + player.height >= recintoGanon.y &&
+            player.position.y <= recintoGanon.y + recintoGanon.height
+        ) {
+            console.log("Toccato recinto Ganon! Passaggio alla stanza 5");
+            cambiaStanza(5, 'sopra');
+        }
     }
 }
 

@@ -271,11 +271,9 @@ class Enemy extends Sprite {
                 this.vita--;
                 this.danno = false;
                 this.invincibilita = true;
-                setTimeout(() => {
-                    this.invincibilita = false;
-                    this.velocity.y = this.initialVelocity; // Riprende la direzione originale
-                }, 500); // Dopo 500 ms torna a muoversi
+                setTimeout(() => { this.invincibilita = false; }, 500);
             }
+            
             // **CONTROLLA SE IL PLAYER È TROPPO VICINO E SUBISCE DANNO**
             let distanza = Math.sqrt(dx * dx + dy * dy);
             if (distanza < 30) { // Se il player è troppo vicino (spazio per attaccare lasciato)
@@ -347,12 +345,10 @@ class Enemy extends Sprite {
     
             if (distance > 5) { // Evita tremori quando è molto vicino
                 // Normalizza il movimento e applica la velocità
-                if(this.danno){this.velocity.x = (dx / distance) * (-this.speed);
-                    this.velocity.y = (dy / distance) * (-this.speed);}
-                    else{
+                
                 this.velocity.x = (dx / distance) * this.speed;
                 this.velocity.y = (dy / distance) * this.speed;
-                    }
+                    
                 // Controllo per cambiare sprite in base alla direzione
                 if (Math.abs(dx) > Math.abs(dy)) {
                     this.cambia_sprite(dx > 0 ? 'walk_right' : 'walk_left');
