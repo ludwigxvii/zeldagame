@@ -540,8 +540,13 @@ function checkDoorCollision() {
             player.position.y + player.height >= recintoGanon.y &&
             player.position.y <= recintoGanon.y + recintoGanon.height
         ) {
+            alert("Bravo! Hai passato lo scritto, ora passiamo all'orale!")
             console.log("Toccato recinto Ganon! Passaggio alla stanza 5");
             cambiaStanza(5, 'sopra');
+            pulsanti.su.pressed = false; // Ferma l'input della freccia su
+            pulsanti.giu.pressed = false; // Ferma l'input della freccia giù
+            pulsanti.sinistra.pressed = false; // Ferma l'input della freccia sinistra
+            pulsanti.destra.pressed = false; // Ferma l'input della freccia destra
         }
     }
 }
